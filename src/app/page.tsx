@@ -14,12 +14,14 @@ interface CaseStudy {
   brandInitial: string;
   project: string;
   description: string;
+  challenge: string;
+  solution: string;
   tags: string[];
   accent: string;
   featured?: boolean;
   visualGradient: string;
-  visualPattern: 'dots' | 'lines' | 'circles' | 'grid';
-  results?: string[];
+  results?: { label: string; value: string }[];
+  serviceType: string;
 }
 
 /* ============================================
@@ -39,110 +41,170 @@ const CASES: CaseStudy[] = [
     brand: '名创优品', brandEn: 'MINISO', brandInitial: 'M',
     project: '迪士尼盲盒 · 跨境推广',
     description: '以AI技术为核心生产力，结合迪士尼《疯狂动物城》经典IP，生成高质感虚拟人物手持盲盒视频内容，突破传统拍摄局限，高效完成跨境推广素材的规模化输出。',
+    challenge: '跨境推广需要大量本地化视频内容，传统拍摄成本高、周期长，难以满足多市场同步推广的需求。',
+    solution: '利用AI视频生成技术，批量产出迪士尼IP联名盲盒的虚拟展示视频，突破传统拍摄限制，实现素材规模化生产。',
     tags: ['跨境推广', 'AI视频生成', 'IP联名', '提升曝光'],
     accent: '#FF4D1F', featured: true,
     visualGradient: 'linear-gradient(135deg, #FF4D1F 0%, #FF9A00 100%)',
-    visualPattern: 'dots',
-    results: ['AI视频生成量提升300%', '跨境曝光量突破5000万+', '素材产出效率翻5倍'],
+    results: [
+      { label: 'AI视频生成量提升', value: '300%' },
+      { label: '跨境曝光量', value: '5000万+' },
+      { label: '素材产出效率', value: '5倍' },
+    ],
+    serviceType: 'AI视频 + 跨境营销',
   },
   {
     id: 2, category: 'brand', categoryLabel: '品牌营销',
     brand: '偌闪女包', brandEn: 'NOXXON', brandInitial: 'N',
     project: '全域营销推广',
-    description: '深度绑定NOXXON品牌调性，以全域整合营销为策略核心，覆盖内容种草、数字运营与销售转化全链路。从品牌曝光到用户决策，构建完整的增长闭环，助力品牌在竞争激烈的女包赛道中实现品效合一。',
+    description: '深度绑定NOXXON品牌调性，以全域整合营销为策略核心，覆盖内容种草、数字运营与销售转化全链路。从品牌曝光到用户决策，构建完整的增长闭环。',
+    challenge: '女包赛道竞争激烈，品牌声量不足，缺乏系统化的全域营销策略，各渠道各自为战。',
+    solution: '构建全域整合营销策略，打通内容种草→数字运营→销售转化全链路，实现品效合一。',
     tags: ['整合营销', '数字运营', '品牌曝光', '销售转化'],
-    accent: '#FF4D1F', featured: true,
+    accent: '#E84393', featured: true,
     visualGradient: 'linear-gradient(135deg, #E84393 0%, #FD79A8 100%)',
-    visualPattern: 'circles',
-    results: ['全域曝光增长200%+', '品牌搜索指数翻倍', '销售转化率提升45%'],
+    results: [
+      { label: '全域曝光增长', value: '200%+' },
+      { label: '品牌搜索指数', value: '翻倍' },
+      { label: '销售转化率提升', value: '45%' },
+    ],
+    serviceType: '全域整合营销',
   },
   {
     id: 3, category: 'brand', categoryLabel: '品牌营销',
     brand: '深蓝内裤', brandEn: 'LUXE BLUE', brandInitial: 'L',
     project: '产品种草 + 全域投放',
-    description: '以数据分析为底层驱动，深度优化投放策略，重构产品视觉表达，从内容种草到全域精准投放，构建高效的销售转化路径，实现品牌声量与销量的双向增长。',
+    description: '以数据分析为底层驱动，深度优化投放策略，重构产品视觉表达，从内容种草到全域精准投放，构建高效的销售转化路径。',
+    challenge: '男装内衣品类投放竞争白热化，获客成本持续攀升，传统粗放式投放效率低下。',
+    solution: '数据驱动的精准投放策略，重构产品视觉表达体系，实现从内容种草到销售转化的全链路优化。',
     tags: ['数据分析', '优化策略', '重构视觉', '销售转化'],
-    accent: '#FF9A00',
+    accent: '#0984E3',
     visualGradient: 'linear-gradient(135deg, #0984E3 0%, #74B9FF 100%)',
-    visualPattern: 'lines',
-    results: ['CPM降低40%', 'ROI提升3.2倍', '全域阅读量破亿'],
+    results: [
+      { label: 'CPM降低', value: '40%' },
+      { label: 'ROI提升', value: '3.2倍' },
+      { label: '全域阅读量', value: '破亿' },
+    ],
+    serviceType: '精准投放 + 视觉重构',
   },
   {
     id: 4, category: 'brand', categoryLabel: '品牌营销',
     brand: '至上元气', brandEn: 'zisoungenki', brandInitial: 'Z',
     project: '全域营销推广',
-    description: '围绕品牌核心，以整合营销为策略主轴，覆盖节庆家庭、日常养生、户外运动等多元生活场景，深度渗透目标人群，从品牌曝光到销售转化，构建全链路增长闭环，助力人参饮品类突围。',
+    description: '围绕品牌核心，以整合营销为策略主轴，覆盖节庆家庭、日常养生、户外运动等多元生活场景，深度渗透目标人群，构建全链路增长闭环。',
+    challenge: '人参饮品类市场教育不足，消费者认知模糊，需要在细分场景中建立品牌心智。',
+    solution: '围绕多元生活场景进行内容渗透，整合节庆、养生、运动等场景，构建品牌认知→购买转化的完整链路。',
     tags: ['整合营销', '数字运营', '品牌曝光', '销售转化'],
-    accent: '#FF9A00',
+    accent: '#00B894',
     visualGradient: 'linear-gradient(135deg, #00B894 0%, #55EFC4 100%)',
-    visualPattern: 'grid',
-    results: ['品牌曝光量增长180%', '全渠道销售额提升60%', '私域用户沉淀15万+'],
+    results: [
+      { label: '品牌曝光量增长', value: '180%' },
+      { label: '全渠道销售额提升', value: '60%' },
+      { label: '私域用户沉淀', value: '15万+' },
+    ],
+    serviceType: '场景化整合营销',
   },
   {
     id: 5, category: 'brand', categoryLabel: '品牌营销',
     brand: '喜来鹿精酿', brandEn: 'SHERALOO', brandInitial: 'S',
     project: '品牌宣传 + 电商运营',
-    description: '全程借助AI技术完成内容创作，涵盖品牌视觉素材生成、场景化产品图、种草文案撰写等，大幅提升内容产出效率，同时保持高质感的视觉呈现。结合专业的电商运营策略，实现品牌曝光与销售转化的双重目标。',
-    tags: ['品牌宣传', '数字运营', '品牌曝光', '销售转化'],
-    accent: '#FF9A00',
+    description: '全程借助AI技术完成内容创作，涵盖品牌视觉素材生成、场景化产品图、种草文案撰写等，大幅提升内容产出效率。结合专业的电商运营策略，实现品牌曝光与销售转化的双重目标。',
+    challenge: '精酿啤酒品牌需要大量场景化视觉内容，传统拍摄和设计难以满足高频内容更新需求。',
+    solution: 'AI驱动的全流程内容生产，从视觉素材到种草文案一键生成，结合电商运营实现品效合一。',
+    tags: ['品牌宣传', 'AI内容', '电商运营', '销售转化'],
+    accent: '#E17055',
     visualGradient: 'linear-gradient(135deg, #FDCB6E 0%, #E17055 100%)',
-    visualPattern: 'dots',
-    results: ['AI内容产出效率提升5倍', '电商月销突破百万', '品牌认知度提升120%'],
+    results: [
+      { label: 'AI内容产出效率提升', value: '5倍' },
+      { label: '电商月销', value: '破百万' },
+      { label: '品牌认知度提升', value: '120%' },
+    ],
+    serviceType: 'AI内容生产 + 电商运营',
   },
   {
     id: 6, category: 'platform', categoryLabel: '平台合作',
     brand: '小红书点点', brandEn: 'RED Diandian', brandInitial: 'R',
     project: '平台推广运营',
-    description: '聚焦平台推广运营，围绕「点点AI」的核心功能与使用场景，通过定制化内容策略，在小红书平台进行精准推广，帮助产品快速触达目标用户群体，提升功能认知与活跃使用率。',
+    description: '聚焦平台推广运营，围绕「点点AI」的核心功能与使用场景，通过定制化内容策略，在小红书平台进行精准推广，帮助产品快速触达目标用户群体。',
+    challenge: '小红书平台AI功能推广需要精准触达目标用户，内容策略需与平台生态深度结合。',
+    solution: '定制化内容策略，围绕AI核心功能场景化种草，搭建矩阵账号实现精准推广。',
     tags: ['定制推广', '内容孵化', '矩阵搭建', '爆款话题'],
-    accent: '#6D5CFF',
+    accent: '#FF6B6B',
     visualGradient: 'linear-gradient(135deg, #FF6B6B 0%, #EE5A24 100%)',
-    visualPattern: 'circles',
-    results: ['小红书话题曝光2000万+', '用户活跃度提升65%', '功能认知度提升80%'],
+    results: [
+      { label: '小红书话题曝光', value: '2000万+' },
+      { label: '用户活跃度提升', value: '65%' },
+      { label: '功能认知度提升', value: '80%' },
+    ],
+    serviceType: '平台定制推广',
   },
   {
     id: 7, category: 'platform', categoryLabel: '平台合作',
     brand: '豆包', brandEn: 'Doubao', brandInitial: 'D',
     project: '品牌推广与内容合作',
-    description: '围绕豆包APP推广与内容共创展开，深度挖掘豆包在生活场景中的趣味应用，以贴近年轻用户的真实使用场景为切入点，打造具有强代入感与传播力的内容，助力豆包APP在目标人群中快速破圈。',
+    description: '围绕豆包APP推广与内容共创展开，深度挖掘豆包在生活场景中的趣味应用，以贴近年轻用户的真实使用场景为切入点，打造具有强代入感与传播力的内容。',
+    challenge: 'AI助手类APP需要在海量应用中突围，建立年轻用户群体的品牌认知和使用习惯。',
+    solution: '深度挖掘生活场景中的趣味应用，打造具有强代入感的内容，助力豆包APP在目标人群中快速破圈。',
     tags: ['品牌推广', 'AI创意营销', '内容共创', '份额增长'],
     accent: '#6D5CFF',
     visualGradient: 'linear-gradient(135deg, #6D5CFF 0%, #A29BFE 100%)',
-    visualPattern: 'lines',
-    results: ['APP下载量增长150%', '内容传播率提升90%', '目标人群触达3亿+'],
+    results: [
+      { label: 'APP下载量增长', value: '150%' },
+      { label: '内容传播率提升', value: '90%' },
+      { label: '目标人群触达', value: '3亿+' },
+    ],
+    serviceType: '内容共创 + 品牌推广',
   },
   {
     id: 8, category: 'tourism', categoryLabel: '文旅推广',
     brand: '茂名电白文旅', brandEn: 'Dianbai Tourism', brandInitial: 'DB',
     project: '区域文旅推广项目',
     description: '聚焦区域文旅推广，通过系统性的内容策划与多渠道传播，全面提升电白文旅的品牌知名度与市场吸引力，将当地独特的自然风光与文化魅力转化为实际的旅游流量与游客增长。',
-    tags: ['内容创作', '策划主题', '游客转化', '提升市场'],
-    accent: '#FF9A00',
+    challenge: '地方文旅品牌知名度有限，需要系统性内容策划将自然人文资源转化为实际旅游流量。',
+    solution: '系统性内容策划+多渠道传播，打造文旅IP形象，将自然风光与文化魅力转化为游客增长动力。',
+    tags: ['内容创作', '文旅IP', '游客转化', '品牌升级'],
+    accent: '#00CEC9',
     visualGradient: 'linear-gradient(135deg, #00CEC9 0%, #55EFC4 100%)',
-    visualPattern: 'grid',
-    results: ['文旅品牌认知度提升200%', '游客转化增长85%', '全网曝光量破5000万'],
+    results: [
+      { label: '文旅品牌认知度提升', value: '200%' },
+      { label: '游客转化增长', value: '85%' },
+      { label: '全网曝光量', value: '破5000万' },
+    ],
+    serviceType: '文旅IP打造 + 全域推广',
   },
   {
     id: 9, category: 'ai', categoryLabel: 'AI创意',
     brand: 'AI漫剧', brandEn: 'AI Comics', brandInitial: 'AC',
     project: '影视内容特效',
     description: '聚焦影视内容特效制作，充分发挥AI在画面生成、场景渲染与人物塑造上的技术优势，为漫剧内容注入更具冲击力的视觉体验，助力内容在短视频与流媒体平台上实现高效传播。',
+    challenge: '传统特效制作周期长、成本高，难以满足短视频和流媒体平台的内容产出速度需求。',
+    solution: 'AI驱动的画面生成与场景渲染，大幅降低特效制作成本，提升视觉品质与传播效率。',
     tags: ['AI影像生成', '多题材覆盖', '特效视觉升级', '降本提效'],
     accent: '#6D5CFF',
     visualGradient: 'linear-gradient(135deg, #6D5CFF 0%, #FF4D1F 100%)',
-    visualPattern: 'dots',
-    results: ['特效制作成本降低60%', '视觉品质评分提升40%', '内容传播效率提升3倍'],
+    results: [
+      { label: '特效制作成本降低', value: '60%' },
+      { label: '视觉品质评分提升', value: '40%' },
+      { label: '内容传播效率提升', value: '3倍' },
+    ],
+    serviceType: 'AI影视特效',
   },
   {
     id: 10, category: 'ai', categoryLabel: 'AI创意',
     brand: 'MCN & 博主', brandEn: 'Valorant Collab', brandInitial: 'V',
     project: '无畏契约道具 · 虚实结合',
     description: '联合MCN机构与头部博主，围绕《无畏契约》游戏新道具发布节点，打造"虚实结合"的创新营销内容。通过AI生成的高质感游戏角色形象与真实博主的Cosplay呈现相互融合，模糊虚拟与现实的边界。',
+    challenge: '游戏道具推广需要创新营销形式突破同质化，同时实现虚拟IP与真人博主的内容融合。',
+    solution: 'AI生成的游戏角色形象+真实博主Cosplay，虚实融合创新营销，MCN矩阵实现全网扩散。',
     tags: ['虚实融合', 'AI形象定制', '博主矩阵', '道具借势'],
-    accent: '#6D5CFF',
+    accent: '#FF4D1F',
     visualGradient: 'linear-gradient(135deg, #FF4D1F 0%, #6D5CFF 100%)',
-    visualPattern: 'circles',
-    results: ['虚实融合内容播放量破亿', '博主矩阵覆盖5000万粉丝', '道具搜索量增长300%'],
+    results: [
+      { label: '虚实融合内容播放量', value: '破亿' },
+      { label: '博主矩阵覆盖粉丝', value: '5000万' },
+      { label: '道具搜索量增长', value: '300%' },
+    ],
+    serviceType: 'AI虚实融合 + MCN矩阵',
   },
 ];
 
@@ -166,7 +228,7 @@ const BRANDS_ROW2 = ['半亩花田', '宝生园', '雀巢', '佳能', '可口可
 const BRANDS_ROW3 = ['小林制药', '乐扣乐扣', '深蓝内裤', '喜来鹿', '美贺庄园', '宋朝香氛', '英氏', '秋田满满', '爷爷的农场', 'Miimeow', 'CLECT', '大眼橙'];
 
 /* ============================================
-   火焰粒子系统
+   火焰粒子系统 — IP宇宙星尘
    ============================================ */
 function FireParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -247,7 +309,7 @@ function FireParticles() {
 }
 
 /* ============================================
-   IP 吉祥物浮层组件 — 多层虚化背景
+   IP 吉祥物浮层组件 — 深度虚化背景
    ============================================ */
 function MascotLayer({ className, style, opacity = 0.08, blur = 20, animation = 'float', size = 200 }: {
   className?: string;
@@ -280,22 +342,6 @@ function MascotLayer({ className, style, opacity = 0.08, blur = 20, animation = 
         style={{ width: size, height: size, objectFit: 'contain' }}
       />
     </div>
-  );
-}
-
-/* ============================================
-   IP 吉祥物装饰小元素
-   ============================================ */
-function MascotBadge({ size = 48, className = '' }: { size?: number; className?: string }) {
-  return (
-    <img
-      src="/mascot.png"
-      alt="火牛IP"
-      width={size}
-      height={size}
-      className={`object-contain opacity-60 hover:opacity-90 transition-opacity duration-500 ${className}`}
-      style={{ width: size, height: size }}
-    />
   );
 }
 
@@ -395,66 +441,49 @@ function Navbar() {
 }
 
 /* ============================================
-   Hero 区 — IP 分层背景 + 火焰粒子
+   Hero 区 — IP为主KV，宇宙级沉浸
    ============================================ */
 function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* 底色渐变 */}
+      {/* 宇宙深空底色 — 暖色活力 */}
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 120% 80% at 50% 40%, rgba(255,77,31,0.08) 0%, transparent 50%), radial-gradient(ellipse 80% 60% at 80% 70%, rgba(109,92,255,0.06) 0%, transparent 50%), radial-gradient(ellipse 100% 100% at 20% 90%, rgba(255,154,0,0.05) 0%, transparent 50%), linear-gradient(170deg, #0A0A14 0%, #0B0F1E 40%, #0D0B18 70%, #0A0A14 100%)',
+        background: 'radial-gradient(ellipse 120% 80% at 50% 40%, rgba(255,77,31,0.1) 0%, transparent 50%), radial-gradient(ellipse 80% 60% at 80% 70%, rgba(109,92,255,0.07) 0%, transparent 50%), radial-gradient(ellipse 100% 100% at 20% 90%, rgba(255,154,0,0.06) 0%, transparent 50%), linear-gradient(170deg, #080412 0%, #0F0A1E 30%, #12081A 60%, #0A0614 100%)',
       }} />
 
-      {/* IP 吉祥物分层背景 — 远景（最虚、最淡） */}
-      <MascotLayer
-        size={500}
-        opacity={0.04}
-        blur={60}
-        animation="drift"
-        className="top-[5%] left-[-8%]"
-      />
-      {/* IP 吉祥物分层背景 — 中景 */}
-      <MascotLayer
-        size={350}
-        opacity={0.06}
-        blur={35}
-        animation="float-slow"
-        className="bottom-[10%] right-[-5%]"
-        style={{ animationDelay: '2s' }}
-      />
-      {/* IP 吉祥物分层背景 — 前景（稍清晰） */}
-      <MascotLayer
-        size={250}
-        opacity={0.08}
-        blur={18}
-        animation="float"
-        className="top-[30%] right-[8%]"
-        style={{ animationDelay: '4s' }}
-      />
-      {/* IP 吉祥物分层背景 — 近景左下 */}
-      <MascotLayer
-        size={180}
-        opacity={0.05}
-        blur={25}
-        animation="breath"
-        className="bottom-[20%] left-[5%]"
-        style={{ animationDelay: '1s' }}
-      />
+      {/* IP 吉祥物分层背景 — 4层深度虚化 */}
+      <MascotLayer size={600} opacity={0.04} blur={70} animation="drift" className="top-[0%] left-[-10%]" />
+      <MascotLayer size={400} opacity={0.06} blur={40} animation="float-slow" className="bottom-[5%] right-[-5%]" style={{ animationDelay: '2s' }} />
+      <MascotLayer size={280} opacity={0.08} blur={20} animation="float" className="top-[25%] right-[5%]" style={{ animationDelay: '4s' }} />
+      <MascotLayer size={200} opacity={0.05} blur={30} animation="breath" className="bottom-[15%] left-[3%]" style={{ animationDelay: '1s' }} />
 
+      {/* 火焰粒子 — IP宇宙星尘 */}
       <FireParticles />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A0A14]/20 to-[#0A0A14]" style={{ zIndex: 2 }} />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#080412]/10 to-[#080412]" style={{ zIndex: 2 }} />
+
+      {/* 主KV — IP形象居中展示 */}
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-        {/* IP + Logo 组合 */}
-        <div className="mb-8 flex justify-center items-end gap-4">
+        {/* IP 形象 — 巨幅居中，作为主视觉焦点 */}
+        <div className="hero-ip-container mb-8 relative inline-block">
+          <div className="absolute -inset-16 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,77,31,0.15) 0%, rgba(109,92,255,0.08) 40%, transparent 70%)' }} />
           <div className="relative animate-mascot-float">
-            <img src="/mascot.png" alt="火牛IP" className="w-24 h-24 md:w-32 md:h-32 object-contain drop-shadow-[0_0_30px_rgba(255,77,31,0.3)]" />
+            <img
+              src="/mascot.png"
+              alt="火牛AIGC IP形象"
+              className="w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 object-contain mx-auto"
+              style={{ filter: 'drop-shadow(0 0 40px rgba(255,77,31,0.35)) drop-shadow(0 0 80px rgba(255,154,0,0.15))' }}
+            />
           </div>
-          <div className="relative">
-            <img src="/logo.png" alt="火牛AIGC" className="w-20 h-20 md:w-28 md:h-28 object-contain" />
-            <div className="absolute -inset-8 rounded-full bg-fire-orange/5 blur-3xl" />
-          </div>
+          {/* IP 光环轨道 */}
+          <div className="hero-orbit absolute inset-0" />
         </div>
+
+        {/* Logo */}
+        <div className="mb-6 flex justify-center">
+          <img src="/logo.png" alt="火牛AIGC" className="h-16 md:h-20 w-auto" style={{ filter: 'drop-shadow(0 0 20px rgba(255,77,31,0.2))' }} />
+        </div>
+
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6">
           <span className="text-gradient-fire">AIGC</span>
           <span className="text-foreground"> + 全域电商</span>
@@ -486,9 +515,8 @@ function HeroSection() {
    ============================================ */
 function BrandMarquee() {
   return (
-    <section className="py-16 relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #0A0A14 0%, #0D0B18 50%, #0A0A14 100%)' }}>
-      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,77,31,0.03) 0%, transparent 70%)' }} />
-      {/* IP 装饰 */}
+    <section className="py-16 relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #080412 0%, #0F0A1E 50%, #080412 100%)' }}>
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,77,31,0.04) 0%, transparent 70%)' }} />
       <MascotLayer size={120} opacity={0.04} blur={30} animation="breath" className="top-0 right-[15%]" />
       <FadeIn>
         <p className="text-center text-sm text-muted-foreground tracking-widest uppercase mb-10">合作品牌</p>
@@ -507,7 +535,7 @@ function BrandMarquee() {
 }
 
 /* ============================================
-   关于我们
+   关于我们 — IP引领
    ============================================ */
 function AboutSection() {
   const positions = [
@@ -519,17 +547,20 @@ function AboutSection() {
 
   return (
     <section id="about" className="py-24 md:py-32 relative">
-      {/* 背景氛围 */}
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 70% 50% at 30% 50%, rgba(255,77,31,0.04) 0%, transparent 60%), radial-gradient(ellipse 50% 60% at 80% 30%, rgba(109,92,255,0.03) 0%, transparent 60%), linear-gradient(180deg, #0A0A14 0%, #0B0F1E 50%, #0D0B18 100%)',
+        background: 'radial-gradient(ellipse 70% 50% at 30% 50%, rgba(255,77,31,0.05) 0%, transparent 60%), radial-gradient(ellipse 50% 60% at 80% 30%, rgba(109,92,255,0.04) 0%, transparent 60%), linear-gradient(180deg, #080412 0%, #0F0A1E 50%, #12081A 100%)',
       }} />
       {/* IP 分层装饰 */}
-      <MascotLayer size={300} opacity={0.04} blur={40} animation="drift" className="top-[10%] right-[-5%]" />
-      <MascotLayer size={150} opacity={0.05} blur={20} animation="breath" className="bottom-[15%] left-[3%]" style={{ animationDelay: '3s' }} />
+      <MascotLayer size={350} opacity={0.04} blur={45} animation="drift" className="top-[10%] right-[-5%]" />
+      <MascotLayer size={160} opacity={0.06} blur={22} animation="breath" className="bottom-[15%] left-[3%]" style={{ animationDelay: '3s' }} />
 
       <div className="relative max-w-7xl mx-auto px-6">
         <FadeIn>
-          <p className="text-sm text-fire-orange tracking-widest uppercase mb-4">About Us</p>
+          {/* IP 引导标题 */}
+          <div className="flex items-center gap-4 mb-4">
+            <img src="/mascot.png" alt="" className="w-12 h-12 object-contain animate-mascot-float" style={{ filter: 'drop-shadow(0 0 10px rgba(255,77,31,0.3))' }} />
+            <p className="text-sm text-fire-orange tracking-widest uppercase">About Us</p>
+          </div>
           <h2 className="text-3xl md:text-5xl font-black text-foreground mb-6">
             以火焰<span className="text-gradient-fire">点燃智能</span>
           </h2>
@@ -542,10 +573,6 @@ function AboutSection() {
           {positions.map((item, i) => (
             <FadeIn key={item.title} className={`fade-up-d${i + 1}`}>
               <div className="glass-card glass-card-hover rounded-2xl p-6 h-full relative overflow-hidden group">
-                {/* IP 水印 */}
-                <div className="absolute -bottom-2 -right-2 opacity-[0.03] pointer-events-none">
-                  <img src="/mascot.png" alt="" width={80} height={80} className="object-contain" />
-                </div>
                 <span className="text-3xl text-fire-orange/60 block mb-4">{item.icon}</span>
                 <h3 className="text-lg font-bold text-foreground mb-2">{item.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
@@ -565,13 +592,16 @@ function AdvantagesSection() {
   return (
     <section id="advantages" className="py-24 md:py-32 relative">
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 60% 40% at 60% 60%, rgba(255,154,0,0.04) 0%, transparent 60%), linear-gradient(180deg, #0D0B18 0%, #0A0A14 50%, #0B0F1E 100%)',
+        background: 'radial-gradient(ellipse 60% 40% at 60% 60%, rgba(255,154,0,0.05) 0%, transparent 60%), linear-gradient(180deg, #12081A 0%, #080412 50%, #0F0A1E 100%)',
       }} />
-      <MascotLayer size={220} opacity={0.04} blur={30} animation="float-slow" className="top-[20%] left-[8%]" style={{ animationDelay: '1s' }} />
+      <MascotLayer size={240} opacity={0.05} blur={32} animation="float-slow" className="top-[20%] left-[6%]" style={{ animationDelay: '1s' }} />
 
       <div className="relative max-w-7xl mx-auto px-6">
         <FadeIn>
-          <p className="text-sm text-fire-orange tracking-widest uppercase mb-4">Why Choose Us</p>
+          <div className="flex items-center gap-4 mb-4">
+            <img src="/mascot.png" alt="" className="w-10 h-10 object-contain animate-mascot-breath" style={{ filter: 'drop-shadow(0 0 8px rgba(255,154,0,0.3))' }} />
+            <p className="text-sm text-fire-orange tracking-widest uppercase">Why Choose Us</p>
+          </div>
           <h2 className="text-3xl md:text-5xl font-black text-foreground mb-16">
             选择火牛AIGC的<span className="text-gradient-fire">4大理由</span>
           </h2>
@@ -586,10 +616,6 @@ function AdvantagesSection() {
                   <span className="text-2xl text-fire-orange block mb-4">{item.icon}</span>
                   <h3 className="text-xl font-bold text-foreground mb-3">{item.title}</h3>
                   <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
-                </div>
-                {/* IP 角落装饰 */}
-                <div className="absolute bottom-3 right-3 opacity-[0.03] pointer-events-none">
-                  <img src="/mascot.png" alt="" width={50} height={50} className="object-contain" />
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-fire-orange/0 to-transparent group-hover:via-fire-orange/40 transition-all duration-500" />
               </div>
@@ -608,15 +634,15 @@ function ServicesSection() {
   return (
     <section id="services" className="py-24 md:py-32 relative">
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 80% 50% at 40% 40%, rgba(255,77,31,0.05) 0%, transparent 50%), radial-gradient(ellipse 50% 60% at 70% 70%, rgba(109,92,255,0.04) 0%, transparent 60%), linear-gradient(180deg, #0B0F1E 0%, #0A0A14 50%, #0D0B18 100%)',
+        background: 'radial-gradient(ellipse 80% 50% at 40% 40%, rgba(255,77,31,0.06) 0%, transparent 50%), radial-gradient(ellipse 50% 60% at 70% 70%, rgba(109,92,255,0.04) 0%, transparent 60%), linear-gradient(180deg, #0F0A1E 0%, #080412 50%, #12081A 100%)',
       }} />
-      <MascotLayer size={280} opacity={0.04} blur={35} animation="drift" className="bottom-[5%] right-[2%]" style={{ animationDelay: '2s' }} />
-      <MascotLayer size={140} opacity={0.05} blur={22} animation="float" className="top-[10%] left-[12%]" style={{ animationDelay: '5s' }} />
+      <MascotLayer size={300} opacity={0.04} blur={38} animation="drift" className="bottom-[5%] right-[2%]" style={{ animationDelay: '2s' }} />
+      <MascotLayer size={150} opacity={0.06} blur={20} animation="float" className="top-[10%] left-[10%]" style={{ animationDelay: '5s' }} />
 
       <div className="relative max-w-7xl mx-auto px-6">
         <FadeIn>
-          <div className="flex items-center gap-3 mb-4">
-            <MascotBadge size={36} />
+          <div className="flex items-center gap-4 mb-4">
+            <img src="/mascot.png" alt="" className="w-10 h-10 object-contain animate-mascot-float-slow" style={{ filter: 'drop-shadow(0 0 10px rgba(109,92,255,0.3))' }} />
             <p className="text-sm text-fire-orange tracking-widest uppercase">AIGC Services</p>
           </div>
           <h2 className="text-3xl md:text-5xl font-black text-foreground mb-4">
@@ -649,61 +675,83 @@ function ServicesSection() {
 }
 
 /* ============================================
-   案例详情浮层 — 升级版带视觉
+   案例详情浮层 — 丰富内容
    ============================================ */
 function CaseDetailOverlay({ caseStudy, onClose }: { caseStudy: CaseStudy | null; onClose: () => void }) {
   if (!caseStudy) return null;
 
   return (
     <div className="fixed inset-0 z-[60] flex justify-end" onClick={onClose}>
-      <div className="case-overlay-backdrop absolute inset-0 bg-black/60 backdrop-blur-sm" />
-      <div className="case-overlay-panel relative w-full max-w-xl h-full overflow-y-auto" style={{ background: 'linear-gradient(180deg, #0A0A14 0%, #0D0B18 100%)', borderLeft: '1px solid rgba(255,255,255,0.06)' }} onClick={(e) => e.stopPropagation()}>
+      <div className="case-overlay-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <div className="case-overlay-panel relative w-full max-w-xl h-full overflow-y-auto" style={{ background: 'linear-gradient(180deg, #080412 0%, #12081A 100%)', borderLeft: '1px solid rgba(255,255,255,0.06)' }} onClick={(e) => e.stopPropagation()}>
         {/* 顶部视觉 Banner */}
-        <div className="relative h-48 overflow-hidden" style={{ background: caseStudy.visualGradient }}>
+        <div className="relative h-56 overflow-hidden" style={{ background: caseStudy.visualGradient }}>
           <div className="case-visual-pattern" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-8xl font-black text-white/20 case-visual-icon">{caseStudy.brandInitial}</span>
+          {/* 大品牌首字母 + 品牌名 */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <span className="text-8xl font-black text-white/15">{caseStudy.brandInitial}</span>
+            <span className="text-xl font-bold text-white/40 mt-2">{caseStudy.brand}</span>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A14] via-transparent to-transparent" />
+          {/* IP 水印 */}
+          <div className="absolute bottom-4 right-4 opacity-10 animate-mascot-breath">
+            <img src="/mascot.png" alt="" width={60} height={60} className="object-contain" />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#080412] via-transparent to-transparent" />
           <button onClick={onClose} className="absolute top-4 right-4 w-10 h-10 rounded-full glass-card flex items-center justify-center text-white/70 hover:text-white transition-colors z-10">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><line x1="14" y1="4" x2="4" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><line x1="4" y1="4" x2="14" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
           </button>
         </div>
 
-        <div className="p-8 md:p-12 -mt-8 relative">
+        <div className="p-8 md:p-10 -mt-6 relative">
           <div className="mb-8">
-            <span className="inline-block px-3 py-1 text-xs rounded-full border mb-4" style={{ color: caseStudy.accent, borderColor: `${caseStudy.accent}40`, background: `${caseStudy.accent}10` }}>{caseStudy.categoryLabel}</span>
+            <div className="flex items-center gap-3 mb-3">
+              <span className="inline-block px-3 py-1 text-xs rounded-full border" style={{ color: caseStudy.accent, borderColor: `${caseStudy.accent}40`, background: `${caseStudy.accent}10` }}>{caseStudy.categoryLabel}</span>
+              <span className="px-3 py-1 text-xs rounded-full border border-white/[0.08] text-foreground/60">{caseStudy.serviceType}</span>
+            </div>
             <h3 className="text-3xl md:text-4xl font-black text-foreground mb-1">{caseStudy.brand}</h3>
             <p className="text-sm text-muted-foreground tracking-wide">{caseStudy.brandEn}</p>
           </div>
 
           <div className="section-divider mb-8" />
 
+          {/* 合作项目 */}
           <div className="mb-8">
             <p className="text-xs text-muted-foreground tracking-widest uppercase mb-2">合作项目</p>
             <p className="text-xl font-bold text-gradient-fire">{caseStudy.project}</p>
           </div>
 
+          {/* 项目挑战 */}
           <div className="mb-8">
-            <p className="text-xs text-muted-foreground tracking-widest uppercase mb-3">项目详情</p>
-            <p className="text-foreground/80 leading-[1.8]">{caseStudy.description}</p>
+            <p className="text-xs text-muted-foreground tracking-widest uppercase mb-3">项目背景</p>
+            <div className="glass-card rounded-xl p-5 border-l-2" style={{ borderLeftColor: `${caseStudy.accent}60` }}>
+              <p className="text-foreground/80 leading-[1.8]">{caseStudy.challenge}</p>
+            </div>
           </div>
 
-          {/* 项目成果 */}
+          {/* 解决方案 */}
+          <div className="mb-8">
+            <p className="text-xs text-muted-foreground tracking-widest uppercase mb-3">解决方案</p>
+            <div className="glass-card rounded-xl p-5 border-l-2 border-fire-orange/40">
+              <p className="text-foreground/80 leading-[1.8]">{caseStudy.solution}</p>
+            </div>
+          </div>
+
+          {/* 项目成果 — 数据展示 */}
           {caseStudy.results && (
             <div className="mb-8">
-              <p className="text-xs text-muted-foreground tracking-widest uppercase mb-3">项目成果</p>
-              <div className="space-y-2">
+              <p className="text-xs text-muted-foreground tracking-widest uppercase mb-4">项目成果</p>
+              <div className="grid grid-cols-3 gap-3">
                 {caseStudy.results.map((r) => (
-                  <div key={r} className="flex items-start gap-2 text-sm text-foreground/70">
-                    <span className="text-fire-orange mt-0.5 flex-shrink-0 text-xs">&#9654;</span>
-                    {r}
+                  <div key={r.label} className="glass-card rounded-xl p-4 text-center" style={{ borderColor: `${caseStudy.accent}20` }}>
+                    <p className="text-2xl md:text-3xl font-black text-gradient-fire mb-1">{r.value}</p>
+                    <p className="text-xs text-muted-foreground">{r.label}</p>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
+          {/* 服务标签 */}
           <div>
             <p className="text-xs text-muted-foreground tracking-widest uppercase mb-4">服务标签</p>
             <div className="flex flex-wrap gap-2">
@@ -726,7 +774,7 @@ function CaseDetailOverlay({ caseStudy, onClose }: { caseStudy: CaseStudy | null
 }
 
 /* ============================================
-   案例展示画廊 — 升级版带视觉内容
+   案例展示 — 真实案例内容
    ============================================ */
 function CasesSection() {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -737,16 +785,16 @@ function CasesSection() {
   return (
     <section id="cases" className="py-24 md:py-32 relative">
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 70% 50% at 50% 30%, rgba(255,77,31,0.05) 0%, transparent 60%), radial-gradient(ellipse 60% 60% at 80% 80%, rgba(109,92,255,0.03) 0%, transparent 60%), linear-gradient(180deg, #0B0F1E 0%, #0A0A14 50%, #0D0B18 100%)',
+        background: 'radial-gradient(ellipse 70% 50% at 50% 30%, rgba(255,77,31,0.06) 0%, transparent 60%), radial-gradient(ellipse 60% 60% at 80% 80%, rgba(109,92,255,0.04) 0%, transparent 60%), linear-gradient(180deg, #0F0A1E 0%, #080412 50%, #12081A 100%)',
       }} />
       {/* IP 分层装饰 */}
-      <MascotLayer size={350} opacity={0.03} blur={50} animation="drift" className="top-[5%] left-[-3%]" style={{ animationDelay: '3s' }} />
-      <MascotLayer size={200} opacity={0.05} blur={25} animation="float-slow" className="bottom-[10%] right-[5%]" style={{ animationDelay: '1s' }} />
+      <MascotLayer size={380} opacity={0.03} blur={55} animation="drift" className="top-[5%] left-[-3%]" style={{ animationDelay: '3s' }} />
+      <MascotLayer size={220} opacity={0.05} blur={28} animation="float-slow" className="bottom-[10%] right-[5%]" style={{ animationDelay: '1s' }} />
 
       <div className="relative max-w-7xl mx-auto px-6">
         <FadeIn>
-          <div className="flex items-center gap-3 mb-4">
-            <MascotBadge size={32} />
+          <div className="flex items-center gap-4 mb-4">
+            <img src="/mascot.png" alt="" className="w-10 h-10 object-contain animate-mascot-float" style={{ filter: 'drop-shadow(0 0 10px rgba(255,77,31,0.3))' }} />
             <p className="text-sm text-fire-orange tracking-widest uppercase">Case Studies</p>
           </div>
           <h2 className="text-3xl md:text-5xl font-black text-foreground mb-12">
@@ -769,7 +817,7 @@ function CasesSection() {
           </div>
         </FadeIn>
 
-        {/* 案例卡片网格 — 升级版带视觉 Banner */}
+        {/* 案例卡片网格 */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredCases.map((c, i) => (
             <FadeIn
@@ -778,22 +826,25 @@ function CasesSection() {
             >
               <div className="case-gallery-card glass-card rounded-2xl overflow-hidden h-full" onClick={() => setSelectedCase(c)} style={{ '--case-accent': c.accent } as React.CSSProperties}>
                 {/* 视觉 Banner 区 */}
-                <div className="case-visual-banner relative h-36 overflow-hidden" style={{ background: c.visualGradient }}>
+                <div className="case-visual-banner relative h-40 overflow-hidden" style={{ background: c.visualGradient }}>
                   <div className="case-visual-pattern" />
                   {/* 大品牌首字母 */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="case-visual-icon text-6xl md:text-7xl font-black text-white/20 select-none">{c.brandInitial}</span>
+                    <span className="case-visual-icon text-7xl md:text-8xl font-black text-white/15 select-none">{c.brandInitial}</span>
                   </div>
                   {/* IP 水印 */}
                   <div className="absolute bottom-2 right-2 opacity-10">
                     <img src="/mascot.png" alt="" width={40} height={40} className="object-contain" />
                   </div>
                   {/* 底部渐变遮罩 */}
-                  <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[rgba(10,10,20,0.9)] to-transparent" />
-                  {/* 分类标签浮于 Banner 上 */}
+                  <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[rgba(8,4,18,0.95)] to-transparent" />
+                  {/* 分类 + 服务类型标签 */}
                   <div className="absolute top-3 left-3 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full" style={{ background: c.accent }} />
                     <span className="text-xs tracking-wider uppercase text-white/80 font-medium drop-shadow-lg">{c.categoryLabel}</span>
+                  </div>
+                  <div className="absolute top-3 right-3">
+                    <span className="px-2 py-0.5 text-[10px] rounded-full bg-black/30 text-white/70 backdrop-blur-sm">{c.serviceType}</span>
                   </div>
                 </div>
 
@@ -801,32 +852,32 @@ function CasesSection() {
                   {/* 悬停发光 */}
                   <div className="case-card-glow absolute -inset-px rounded-2xl opacity-0 transition-opacity duration-500 pointer-events-none" style={{ boxShadow: `0 0 30px ${c.accent}20, inset 0 0 30px ${c.accent}08` }} />
 
-                  {/* 品牌名 */}
+                  {/* 品牌名 + 英文名 */}
                   <h3 className="case-brand-name text-2xl md:text-3xl font-black text-foreground mb-1 transition-colors duration-300">{c.brand}</h3>
-                  <p className="text-xs text-muted-foreground mb-4 tracking-wide">{c.brandEn}</p>
+                  <p className="text-xs text-muted-foreground mb-3 tracking-wide">{c.brandEn}</p>
 
                   {/* 项目 */}
                   <p className="text-base font-semibold text-gradient-fire mb-3">{c.project}</p>
 
                   {/* 描述 */}
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-5 flex-1 line-clamp-2">{c.description}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-5 flex-1 line-clamp-3">{c.description}</p>
 
-                  {/* 核心成果 */}
+                  {/* 核心成果 — 数据卡片 */}
                   {c.results && (
-                    <div className="mb-4 space-y-1">
-                      {c.results.slice(0, 2).map((r) => (
-                        <div key={r} className="flex items-center gap-1.5 text-xs text-foreground/50">
-                          <span className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: c.accent }} />
-                          <span className="truncate">{r}</span>
+                    <div className="mb-4 grid grid-cols-3 gap-2">
+                      {c.results.map((r) => (
+                        <div key={r.label} className="text-center p-2 rounded-lg" style={{ background: `${c.accent}08` }}>
+                          <p className="text-sm md:text-base font-black" style={{ color: c.accent }}>{r.value}</p>
+                          <p className="text-[10px] text-muted-foreground leading-tight mt-0.5">{r.label}</p>
                         </div>
                       ))}
                     </div>
                   )}
 
                   {/* 标签 */}
-                  <div className="flex flex-wrap gap-2 mb-4">
+                  <div className="flex flex-wrap gap-1.5 mb-4">
                     {c.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="px-2.5 py-1 text-xs rounded-md border border-white/[0.06] text-foreground/50 bg-white/[0.02]">{tag}</span>
+                      <span key={tag} className="px-2 py-0.5 text-[11px] rounded-md border border-white/[0.06] text-foreground/50 bg-white/[0.02]">{tag}</span>
                     ))}
                   </div>
 
@@ -862,13 +913,16 @@ function DataSection() {
   return (
     <section className="py-24 md:py-32 relative">
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 80% 60% at 30% 50%, rgba(255,154,0,0.05) 0%, transparent 50%), linear-gradient(180deg, #0D0B18 0%, #0A0A14 50%, #0B0F1E 100%)',
+        background: 'radial-gradient(ellipse 80% 60% at 30% 50%, rgba(255,154,0,0.06) 0%, transparent 50%), linear-gradient(180deg, #12081A 0%, #080412 50%, #0F0A1E 100%)',
       }} />
-      <MascotLayer size={260} opacity={0.04} blur={35} animation="float-slow" className="top-[15%] right-[3%]" style={{ animationDelay: '4s' }} />
+      <MascotLayer size={280} opacity={0.05} blur={38} animation="float-slow" className="top-[15%] right-[3%]" style={{ animationDelay: '4s' }} />
 
       <div className="relative max-w-7xl mx-auto px-6">
         <FadeIn>
-          <p className="text-sm text-fire-orange tracking-widest uppercase mb-4">Impact</p>
+          <div className="flex items-center gap-4 mb-4">
+            <img src="/mascot.png" alt="" className="w-10 h-10 object-contain animate-mascot-float" style={{ filter: 'drop-shadow(0 0 10px rgba(255,154,0,0.3))' }} />
+            <p className="text-sm text-fire-orange tracking-widest uppercase">Impact</p>
+          </div>
           <h2 className="text-3xl md:text-5xl font-black text-foreground mb-16">
             服务客户<span className="text-gradient-fire">核心价值</span>
           </h2>
@@ -878,10 +932,6 @@ function DataSection() {
           {metrics.map((m, i) => (
             <FadeIn key={m.label} className={`fade-up-d${i + 1}`}>
               <div className="metric-card glass-card rounded-2xl p-8 text-center h-full relative overflow-hidden">
-                {/* IP 角落装饰 */}
-                <div className="absolute -top-2 -right-2 opacity-[0.03] pointer-events-none">
-                  <img src="/mascot.png" alt="" width={60} height={60} className="object-contain" />
-                </div>
                 <p className="metric-value text-5xl md:text-6xl font-black text-gradient-fire mb-2 transition-all duration-500">
                   <CountUp end={m.value} suffix={m.suffix} />
                 </p>
@@ -932,13 +982,16 @@ function ServiceFlowSection() {
   return (
     <section className="py-24 md:py-32 relative">
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 60% 50% at 70% 40%, rgba(109,92,255,0.04) 0%, transparent 60%), linear-gradient(180deg, #0B0F1E 0%, #0A0A14 50%, #0D0B18 100%)',
+        background: 'radial-gradient(ellipse 60% 50% at 70% 40%, rgba(109,92,255,0.05) 0%, transparent 60%), linear-gradient(180deg, #0F0A1E 0%, #080412 50%, #12081A 100%)',
       }} />
-      <MascotLayer size={180} opacity={0.05} blur={22} animation="breath" className="top-[8%] left-[5%]" style={{ animationDelay: '2s' }} />
+      <MascotLayer size={200} opacity={0.06} blur={24} animation="breath" className="top-[8%] left-[5%]" style={{ animationDelay: '2s' }} />
 
       <div className="relative max-w-7xl mx-auto px-6">
         <FadeIn>
-          <p className="text-sm text-fire-orange tracking-widest uppercase mb-4">Full Chain Service</p>
+          <div className="flex items-center gap-4 mb-4">
+            <img src="/mascot.png" alt="" className="w-10 h-10 object-contain animate-mascot-float-slow" style={{ filter: 'drop-shadow(0 0 10px rgba(109,92,255,0.3))' }} />
+            <p className="text-sm text-fire-orange tracking-widest uppercase">Full Chain Service</p>
+          </div>
           <h2 className="text-3xl md:text-5xl font-black text-foreground mb-6">
             全链路一站式<span className="text-gradient-fire">增长解决方案</span>
           </h2>
@@ -952,10 +1005,6 @@ function ServiceFlowSection() {
                 <span className="text-2xl text-fire-orange block mb-4">{f.icon}</span>
                 <h3 className="text-lg font-bold text-foreground mb-3">{f.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
-                {/* IP 水印 */}
-                <div className="absolute -bottom-1 -right-1 opacity-[0.03] pointer-events-none">
-                  <img src="/mascot.png" alt="" width={45} height={45} className="object-contain" />
-                </div>
               </div>
             </FadeIn>
           ))}
@@ -996,13 +1045,16 @@ function TeamSection() {
   return (
     <section className="py-24 md:py-32 relative">
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 70% 50% at 40% 50%, rgba(255,77,31,0.04) 0%, transparent 60%), linear-gradient(180deg, #0D0B18 0%, #0A0A14 50%, #0B0F1E 100%)',
+        background: 'radial-gradient(ellipse 70% 50% at 40% 50%, rgba(255,77,31,0.05) 0%, transparent 60%), linear-gradient(180deg, #12081A 0%, #080412 50%, #0F0A1E 100%)',
       }} />
-      <MascotLayer size={200} opacity={0.04} blur={28} animation="float" className="bottom-[5%] left-[10%]" style={{ animationDelay: '6s' }} />
+      <MascotLayer size={220} opacity={0.05} blur={30} animation="float" className="bottom-[5%] left-[10%]" style={{ animationDelay: '6s' }} />
 
       <div className="relative max-w-7xl mx-auto px-6">
         <FadeIn>
-          <p className="text-sm text-fire-orange tracking-widest uppercase mb-4">Founder Track Record</p>
+          <div className="flex items-center gap-4 mb-4">
+            <img src="/mascot.png" alt="" className="w-10 h-10 object-contain animate-mascot-breath" style={{ filter: 'drop-shadow(0 0 10px rgba(255,77,31,0.3))' }} />
+            <p className="text-sm text-fire-orange tracking-widest uppercase">Founder Track Record</p>
+          </div>
           <h2 className="text-3xl md:text-5xl font-black text-foreground mb-6">
             创始人<span className="text-gradient-fire">核心战绩</span>
           </h2>
@@ -1013,10 +1065,6 @@ function TeamSection() {
           {achievements.map((a, i) => (
             <FadeIn key={a.title} className={`fade-up-d${i + 1}`}>
               <div className="glass-card glass-card-hover rounded-2xl p-8 h-full relative overflow-hidden">
-                {/* IP 角落 */}
-                <div className="absolute top-4 right-4 opacity-[0.04] pointer-events-none">
-                  <img src="/mascot.png" alt="" width={50} height={50} className="object-contain" />
-                </div>
                 <div className="flex items-baseline gap-3 mb-2">
                   <h3 className="text-xl font-bold text-foreground">{a.title}</h3>
                   <span className="text-sm text-gradient-fire font-semibold">{a.subtitle}</span>
@@ -1045,7 +1093,7 @@ function BrandSection() {
   const colors = [
     { name: '炽焰橙', hex: '#FF4D1F', desc: '火牛之焰' },
     { name: '明橙', hex: '#FF9A00', desc: '火焰最亮处' },
-    { name: '深空藏蓝', hex: '#0B0F1E', desc: '午夜宇宙' },
+    { name: '深空藏蓝', hex: '#0F0A1E', desc: '午夜宇宙' },
     { name: '电光紫', hex: '#6D5CFF', desc: '数字裂隙之光' },
     { name: '冷灰', hex: '#F2F4F7', desc: '太空舱内壁' },
   ];
@@ -1053,13 +1101,16 @@ function BrandSection() {
   return (
     <section id="brand" className="py-24 md:py-32 relative">
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(255,77,31,0.04) 0%, transparent 60%), linear-gradient(180deg, #0B0F1E 0%, #0A0A14 50%, #0D0B18 100%)',
+        background: 'radial-gradient(ellipse 60% 40% at 50% 50%, rgba(255,77,31,0.05) 0%, transparent 60%), linear-gradient(180deg, #0F0A1E 0%, #080412 50%, #12081A 100%)',
       }} />
-      <MascotLayer size={400} opacity={0.03} blur={50} animation="drift" className="top-[5%] right-[-5%]" style={{ animationDelay: '5s' }} />
+      <MascotLayer size={420} opacity={0.03} blur={55} animation="drift" className="top-[5%] right-[-5%]" style={{ animationDelay: '5s' }} />
 
       <div className="relative max-w-7xl mx-auto px-6">
         <FadeIn>
-          <p className="text-sm text-fire-orange tracking-widest uppercase mb-4">Brand Identity</p>
+          <div className="flex items-center gap-4 mb-4">
+            <img src="/mascot.png" alt="" className="w-10 h-10 object-contain animate-mascot-float" style={{ filter: 'drop-shadow(0 0 10px rgba(255,77,31,0.3))' }} />
+            <p className="text-sm text-fire-orange tracking-widest uppercase">Brand Identity</p>
+          </div>
           <h2 className="text-3xl md:text-5xl font-black text-foreground mb-16">
             品牌<span className="text-gradient-fire">基因</span>
           </h2>
@@ -1068,27 +1119,24 @@ function BrandSection() {
         <div className="grid lg:grid-cols-2 gap-12 mb-16">
           {/* Logo 展示 */}
           <FadeIn className="fade-up-d1">
-            <div className="glass-card rounded-2xl p-10 flex flex-col items-center justify-center min-h-[320px] relative overflow-hidden">
-              {/* 氛围光 */}
-              <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(255,77,31,0.06) 0%, transparent 60%)' }} />
-              <img src="/logo.png" alt="火牛AIGC Logo" className="w-40 h-40 object-contain mb-6 relative z-10" />
+            <div className="glass-card rounded-2xl p-10 flex flex-col items-center justify-center min-h-[360px] relative overflow-hidden">
+              <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(255,77,31,0.08) 0%, transparent 60%)' }} />
+              <img src="/logo.png" alt="火牛AIGC Logo" className="w-44 h-44 object-contain mb-6 relative z-10" />
               <p className="text-xl font-bold text-foreground relative z-10">火牛AIGC</p>
               <p className="text-sm text-muted-foreground mt-1 relative z-10">AI-Driven · Innovation · Growth · Connect</p>
-              <div className="flex gap-2 mt-4 relative z-10">
-                {['AI-DRIVEN', 'INNOVATION', 'GROWTH', 'CONNECT'].map((kw) => (
-                  <span key={kw} className="px-2 py-0.5 text-[10px] rounded border border-fire-orange/20 text-fire-orange/60">{kw}</span>
-                ))}
-              </div>
             </div>
           </FadeIn>
 
-          {/* IP形象 — 升级版带浮动动画 */}
+          {/* IP形象 — 主KV展示 */}
           <FadeIn className="fade-up-d2">
-            <div className="glass-card rounded-2xl p-10 flex flex-col items-center justify-center min-h-[320px] relative overflow-hidden">
-              {/* 氛围光 */}
-              <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(109,92,255,0.06) 0%, transparent 60%)' }} />
-              <div className="relative z-10 animate-mascot-float">
-                <img src="/mascot.png" alt="火牛AIGC IP形象" className="w-60 h-60 object-contain mb-4 drop-shadow-[0_0_40px_rgba(255,77,31,0.2)]" />
+            <div className="glass-card rounded-2xl p-10 flex flex-col items-center justify-center min-h-[360px] relative overflow-hidden">
+              <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(109,92,255,0.08) 0%, rgba(255,77,31,0.04) 40%, transparent 70%)' }} />
+              {/* IP 宇宙光环 */}
+              <div className="relative z-10 mb-4">
+                <div className="absolute -inset-8 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,77,31,0.12) 0%, rgba(109,92,255,0.06) 50%, transparent 70%)' }} />
+                <div className="relative animate-mascot-float">
+                  <img src="/mascot.png" alt="火牛AIGC IP形象" className="w-56 h-56 object-contain" style={{ filter: 'drop-shadow(0 0 40px rgba(255,77,31,0.25)) drop-shadow(0 0 80px rgba(109,92,255,0.1))' }} />
+                </div>
               </div>
               <p className="text-lg font-bold text-foreground relative z-10">火牛AIGC IP Mascot</p>
               <p className="text-sm text-muted-foreground mt-1 relative z-10">赛博太空牛 · 数字裂隙中的守护者</p>
@@ -1122,17 +1170,21 @@ function ContactSection() {
   return (
     <section id="contact" className="py-24 md:py-32 relative">
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255,77,31,0.06) 0%, transparent 50%), radial-gradient(ellipse 60% 60% at 80% 80%, rgba(109,92,255,0.04) 0%, transparent 60%), linear-gradient(180deg, #0A0A14 0%, #0D0B18 50%, #0A0A14 100%)',
+        background: 'radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255,77,31,0.08) 0%, transparent 50%), radial-gradient(ellipse 60% 60% at 80% 80%, rgba(109,92,255,0.05) 0%, transparent 60%), linear-gradient(180deg, #080412 0%, #12081A 50%, #080412 100%)',
       }} />
       {/* IP 浮层装饰 */}
-      <MascotLayer size={300} opacity={0.05} blur={30} animation="drift" className="top-[10%] left-[5%]" style={{ animationDelay: '1s' }} />
-      <MascotLayer size={200} opacity={0.04} blur={25} animation="float-slow" className="bottom-[15%] right-[8%]" style={{ animationDelay: '4s' }} />
+      <MascotLayer size={320} opacity={0.06} blur={32} animation="drift" className="top-[10%] left-[5%]" style={{ animationDelay: '1s' }} />
+      <MascotLayer size={220} opacity={0.05} blur={28} animation="float-slow" className="bottom-[15%] right-[8%]" style={{ animationDelay: '4s' }} />
 
       <div className="relative max-w-7xl mx-auto px-6 text-center">
         <FadeIn>
-          <div className="flex justify-center mb-6">
-            <div className="animate-mascot-float">
-              <img src="/mascot.png" alt="火牛IP" className="w-20 h-20 object-contain drop-shadow-[0_0_20px_rgba(255,77,31,0.2)]" />
+          {/* IP 主角登场 */}
+          <div className="mb-8 flex justify-center">
+            <div className="relative">
+              <div className="absolute -inset-6 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,77,31,0.15) 0%, transparent 70%)' }} />
+              <div className="relative animate-mascot-float">
+                <img src="/mascot.png" alt="火牛IP" className="w-28 h-28 object-contain" style={{ filter: 'drop-shadow(0 0 30px rgba(255,77,31,0.3))' }} />
+              </div>
             </div>
           </div>
           <p className="text-sm text-fire-orange tracking-widest uppercase mb-4">Contact Us</p>
@@ -1184,14 +1236,14 @@ function ContactSection() {
    ============================================ */
 function Footer() {
   return (
-    <footer style={{ background: '#0A0A14' }}>
+    <footer style={{ background: '#080412' }}>
       <div className="brand-stripe h-1" />
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-3 mb-4">
               <img src="/logo.png" alt="火牛AIGC" className="h-12 w-auto rounded" />
-              <MascotBadge size={36} className="opacity-40" />
+              <img src="/mascot.png" alt="火牛IP" className="h-10 w-10 object-contain opacity-60" />
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
               广州火牛智能物联网有限公司<br />AIGC赋能，让电商增长更高效
