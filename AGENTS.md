@@ -2,7 +2,7 @@
 
 ## 项目简介
 
-火牛AIGC 官网 — 一家专注于AIGC技术研发与落地的创新企业官网。深色沉浸式设计，大牌高级感，融合火焰粒子动画、毛玻璃卡片、全屏视差叙事。
+火牛AIGC 官网 — 广州火牛智能物联网有限公司官方品牌网站。定位"AIGC + 全域电商增长一体化服务商"。深色沉浸式设计，大牌高级感，融合火焰粒子动画、毛玻璃卡片、全屏视差叙事。IP吉祥物元素（火焰毛发、电路牛角、科技光环、头盔面罩、像素方块）拆解融入全站设计。
 
 ### 版本技术栈
 
@@ -83,10 +83,18 @@
 
 首页包含以下区块（自上而下）：
 1. **Navbar** — 毛玻璃固定导航栏，滚动后背景加深
-2. **HeroSection** — 全屏深色背景 + 火焰粒子Canvas + Logo + Slogan
-3. **AboutSection** — 关于我们，双栏布局 + 数据统计卡片
-4. **CapabilitiesSection** — 四大核心能力，毛玻璃四宫格卡片
-5. **CasesSection** — 案例展示，左侧案例列表 + 右侧详情切换
-6. **BrandSection** — 品牌基因，Logo展示 + IP形象 + 品牌色系
-7. **ContactSection** — CTA行动号召
-8. **Footer** — 品牌色条 + 链接 + 版权
+2. **HeroSection** — 全屏深色背景 + 火焰粒子Canvas + IP拆解元素主KV（火焰毛发、电路牛角、头盔面罩、科技光环、像素方块）+ Logo + Slogan
+3. **BrandMarquee** — 合作品牌滚动条
+4. **AboutSection** — 公司定位，双栏布局 + 企业信息卡片
+5. **AdvantagesSection** — 四大核心优势，毛玻璃四宫格卡片
+6. **BrandWallSection** — 合作品牌墙，展示全部历史合作品牌
+7. **CasesSection** — 7个真实案例展示（名创优品/偌闪/深蓝内裤/至上元气/喜来鹿/小红书点点/豆包），卡片 + 详情浮层
+8. **ServiceFlowSection** — 全链路服务体系四步流程
+9. **TeamSection** — 核心团队介绍
+10. **BrandSection** — 品牌基因，Logo展示 + IP拆解元素 + 品牌色系
+11. **ContactSection** — CTA行动号召 + 公司信息
+12. **Footer** — 品牌色条 + 链接 + 版权
+
+## 数据来源
+
+所有页面数据（案例、品牌、公司信息、团队描述）均来源于 `public/company-intro.pdf`，**严禁编造任何信息**。

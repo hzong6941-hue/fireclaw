@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 120" fill="none">
+  <defs>
+    <linearGradient id="flameGrad" x1="0%" y1="100%" x2="70%" y2="0%">
+      <stop offset="0%" stop-color="#CC2200"/>
+      <stop offset="35%" stop-color="#FF4D1F"/>
+      <stop offset="70%" stop-color="#FF9A00"/>
+      <stop offset="100%" stop-color="#FFD700"/>
+    </linearGradient>
+    <linearGradient id="flameGrad2" x1="100%" y1="100%" x2="30%" y2="0%">
+      <stop offset="0%" stop-color="#CC2200"/>
+      <stop offset="35%" stop-color="#FF4D1F"/>
+      <stop offset="70%" stop-color="#FF9A00"/>
+      <stop offset="100%" stop-color="#FFD700"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 牛头 + 火焰牛角图形 -->
+  <g transform="translate(8, 8)">
+    <!-- 左牛角/火焰 - 更动态的火焰形态 -->
+    <path d="M38 70 C32 50 22 30 12 12 C9 6 15 2 20 8 C28 20 36 40 40 58 C42 65 40 68 38 70Z" fill="url(#flameGrad)" filter="url(#glow)"/>
+    <path d="M38 70 C35 55 30 38 24 24 C20 16 16 12 18 8 C22 14 28 32 33 48 C36 58 37 64 38 70Z" fill="#FFD700" opacity="0.5"/>
+    <!-- 火焰内层 -->
+    <path d="M36 60 C33 48 28 36 22 24 C19 18 22 14 26 20 C30 28 34 42 36 55Z" fill="#FFD700" opacity="0.3"/>
+
+    <!-- 右牛角/火焰 -->
+    <path d="M72 70 C78 50 88 30 98 12 C101 6 95 2 90 8 C82 20 74 40 70 58 C68 65 70 68 72 70Z" fill="url(#flameGrad2)" filter="url(#glow)"/>
+    <path d="M72 70 C75 55 80 38 86 24 C90 16 94 12 92 8 C88 14 82 32 77 48 C74 58 73 64 72 70Z" fill="#FFD700" opacity="0.5"/>
+    <path d="M74 60 C77 48 82 36 88 24 C91 18 88 14 84 20 C80 28 76 42 74 55Z" fill="#FFD700" opacity="0.3"/>
+
+    <!-- 牛脸轮廓 -->
+    <path d="M38 70 C38 54 44 44 55 40 C60 38 66 38 71 40 C82 44 88 54 88 70 C88 82 80 90 63 93 C46 90 38 82 38 70Z" fill="url(#flameGrad)" opacity="0.95"/>
+
+    <!-- 牛耳 -->
+    <path d="M38 58 C32 52 26 50 30 45 C34 42 40 46 42 52Z" fill="url(#flameGrad)"/>
+    <path d="M88 58 C94 52 100 50 96 45 C92 42 86 46 84 52Z" fill="url(#flameGrad2)"/>
+
+    <!-- 口鼻 -->
+    <ellipse cx="63" cy="82" rx="14" ry="9" fill="#FFD700" opacity="0.4"/>
+    <ellipse cx="63" cy="80" rx="8" ry="5" fill="#FF9A00" opacity="0.5"/>
+
+    <!-- 眼睛 - 更有神 -->
+    <ellipse cx="52" cy="62" rx="5" ry="6" fill="#0A0A14"/>
+    <ellipse cx="74" cy="62" rx="5" ry="6" fill="#0A0A14"/>
+    <circle cx="53.5" cy="60" r="2" fill="white" opacity="0.9"/>
+    <circle cx="75.5" cy="60" r="2" fill="white" opacity="0.9"/>
+
+    <!-- 额头火焰标志 -->
+    <path d="M58 48 C58 44 60 40 63 37 C66 40 68 44 68 48 C68 52 64 55 63 55 C62 55 58 52 58 48Z" fill="#FFD700" opacity="0.7"/>
+  </g>
+
+  <!-- 右侧像素方块 - 更动态排列 -->
+  <rect x="108" y="24" width="10" height="10" rx="2" fill="#FF9A00" filter="url(#glow)"/>
+  <rect x="122" y="18" width="8" height="8" rx="1.5" fill="#FFD700"/>
+  <rect x="134" y="24" width="10" height="10" rx="2" fill="#FF9A00" opacity="0.9"/>
+  <rect x="148" y="30" width="6" height="6" rx="1" fill="#FFD700" opacity="0.7"/>
+  <rect x="112" y="42" width="9" height="9" rx="2" fill="#6D5CFF" filter="url(#glow)"/>
+  <rect x="126" y="48" width="7" height="7" rx="1.5" fill="#FF4D1F" opacity="0.8"/>
+  <rect x="138" y="40" width="8" height="8" rx="1.5" fill="#6D5CFF" opacity="0.6"/>
+  <rect x="152" y="46" width="5" height="5" rx="1" fill="#FFD700" opacity="0.5"/>
+
+  <!-- 文字 -->
+  <text x="170" y="62" fill="white" font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif" font-size="36" font-weight="900" letter-spacing="4">火牛</text>
+  <text x="170" y="88" fill="white" font-family="'Inter','Helvetica Neue',sans-serif" font-size="22" font-weight="700" letter-spacing="2">AIGC</text>
+
+  <!-- A 中的橙色斜线 -->
+  <line x1="195" y1="86" x2="205" y2="72" stroke="#FF4D1F" stroke-width="3" stroke-linecap="round"/>
+</svg>

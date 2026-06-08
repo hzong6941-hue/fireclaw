@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://lf-code-agent.coze.cn/obj/x-ai-cn/fonts/google/google-all-fonts.css" rel="stylesheet"/>
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/jquery/jquery-3.7.1.min.js"></script>
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/lucide/lucide-1.11.0.min.js"></script>
+  <script src="https://lf-code-agent.coze.cn/obj/x-ai-cn/cdn/tailwindcss/tailwindcss-browser-4.2.4.min.js"></script>
+
+  <style type="text/tailwindcss">
+    @theme {
+      --color-primary:              #FF4D1F;
+      --color-primary-container:    #3A1A10;
+      --color-on-primary:           #ffffff;
+      --color-background:                 #0A0A14;
+      --color-surface-container-lowest:   #0F1220;
+      --color-surface:                    #111528;
+      --color-surface-container:          #151829;
+      --color-surface-container-high:     #1A1E30;
+      --color-surface-container-highest:  #202438;
+      --color-on-surface:           #F2F4F7;
+      --color-on-surface-variant:   #8890A8;
+      --color-success:  #22c55e;
+      --color-error:    #ef4444;
+      --color-warning:  #f59e0b;
+      --color-outline:          #2A3045;
+      --color-outline-variant:  #1E2438;
+      --radius-sm:   0.25rem;
+      --radius-md:   0.5rem;
+      --radius-lg:   0.75rem;
+      --radius-xl:   1rem;
+      --radius-2xl:  1.5rem;
+      --radius-full: 9999px;
+      --shadow-card:   0 2px 8px rgba(0,0,0,0.35);
+      --shadow-float:  0 10px 25px rgba(0,0,0,0.45);
+      --shadow-dialog: 0 25px 50px rgba(0,0,0,0.55);
+      --font-sans: "Inter", "Noto Sans SC", system-ui, sans-serif;
+    }
+    /* 自定义动画 */
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    @keyframes float-slow { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(1deg); } }
+    @keyframes breath { 0%,100% { opacity: 0.04; transform: scale(1); } 50% { opacity: 0.08; transform: scale(1.05); } }
+    @keyframes drift { 0% { transform: translateX(0) translateY(0); } 25% { transform: translateX(30px) translateY(-15px); } 50% { transform: translateX(10px) translateY(-30px); } 75% { transform: translateX(-20px) translateY(-10px); } 100% { transform: translateX(0) translateY(0); } }
+    @keyframes orbit { 0% { transform: rotate(0deg) translateX(180px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(180px) rotate(-360deg); } }
+    @keyframes orbit2 { 0% { transform: rotate(120deg) translateX(220px) rotate(-120deg); } 100% { transform: rotate(480deg) translateX(220px) rotate(-480deg); } }
+    @keyframes orbit3 { 0% { transform: rotate(240deg) translateX(260px) rotate(-240deg); } 100% { transform: rotate(600deg) translateX(260px) rotate(-600deg); } }
+    @keyframes pulse-glow { 0%,100% { box-shadow: 0 0 30px rgba(255,77,31,0.15); } 50% { box-shadow: 0 0 60px rgba(255,77,31,0.3); } }
+    @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+    @keyframes fade-up { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
+    .animate-breath { animation: breath 5s ease-in-out infinite; }
+    .animate-drift { animation: drift 20s ease-in-out infinite; }
+    .animate-orbit { animation: orbit 20s linear infinite; }
+    .animate-orbit2 { animation: orbit2 25s linear infinite; }
+    .animate-orbit3 { animation: orbit3 30s linear infinite; }
+    .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+    .animate-shimmer { background: linear-gradient(90deg, transparent 0%, rgba(255,77,31,0.08) 50%, transparent 100%); background-size: 200% 100%; animation: shimmer 3s ease-in-out infinite; }
+    .animate-fade-up { animation: fade-up 0.8s cubic-bezier(0.16,1,0.3,1) forwards; }
+    .glass-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.06); }
+    .glass-card-hover:hover { border-color: rgba(255,77,31,0.3); background: rgba(255,255,255,0.05); }
+    .text-gradient-fire { background: linear-gradient(135deg, #FF4D1F, #FF9A00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bg-gradient-fire { background: linear-gradient(135deg, #FF4D1F, #FF9A00); }
+    .bg-gradient-cosmic { background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(255,77,31,0.06) 0%, rgba(109,92,255,0.03) 40%, transparent 70%); }
+    .bg-gradient-warm { background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,77,31,0.08) 0%, transparent 70%); }
+    .bg-gradient-purple { background: radial-gradient(ellipse 50% 50% at 30% 50%, rgba(109,92,255,0.06) 0%, transparent 70%); }
+    .bg-gradient-amber { background: radial-gradient(ellipse 50% 50% at 70% 50%, rgba(255,154,0,0.05) 0%, transparent 70%); }
+    .orbital-ring { border: 1px solid rgba(255,77,31,0.08); border-radius: 50%; }
+    .ip-layer-far { filter: blur(60px); opacity: 0.04; }
+    .ip-layer-mid { filter: blur(30px); opacity: 0.05; }
+    .ip-layer-near { filter: blur(18px); opacity: 0.07; }
+    .ip-layer-front { filter: blur(6px); opacity: 0.08; }
+    .case-banner { height: 144px; position: relative; overflow: hidden; }
+    .case-banner::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(to top, var(--banner-bg), transparent); }
+    .scroll-reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16,1,0.3,1); }
+    .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+
+  <script>
+    document.addEventListener('error', function (e) {
+      const img = e.target;
+      if (img.tagName !== 'IMG' || img.dataset.fallback) return;
+      img.dataset.fallback = '1';
+      const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const cat = img.getAttribute('data-category') || '其他';
+      const alt = img.getAttribute('alt') || '';
+      const label = esc(alt.length > 8 ? alt.slice(0, 8) + '…' : alt);
+      const icons = { '人物': '👤', '自然风景': '🏞', '动物': '🐾', '建筑城市': '🏙', '运动体育': '⚽', '交通工具': '🚗', '食物': '🍽', '服饰时尚': '👗', '商业科技': '💼', '游戏娱乐': '🎮', '艺术': '🎨', '其他': '🖼' };
+      const icon = icons[cat] || '🖼';
+      const w = img.width || 400, h = img.height || 300;
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect width="100%" height="100%" fill="%23f3f4f6"/><text x="50%" y="45%" text-anchor="middle" font-size="${Math.min(w, h) * 0.18}" dominant-baseline="central">${icon}</text><text x="50%" y="68%" text-anchor="middle" font-size="${Math.min(w, h) * 0.07}" fill="%239ca3af" font-family="system-ui,sans-serif" dominant-baseline="central">${label}</text></svg>`;
+      img.src = 'data:image/svg+xml,' + svg;
+    }, true);
+  </script>
+</head>
+
+<body class="bg-background text-on-surface font-sans">
+
+  <!-- @nav:start 导航组件 -->
+  <header class="fixed top-0 left-0 right-0 z-50 h-16 flex items-center bg-background/70 backdrop-blur-xl border-b border-outline-variant/20">
+    <div class="max-w-7xl mx-auto w-full px-6 flex items-center justify-between">
+      <a href="home.html" class="flex items-center gap-2.5">
+        <img src="/logo.png" alt="火牛AIGC品牌标识" class="h-8 w-auto" data-category="商业科技" />
+        <span class="font-bold text-lg text-on-surface">火牛AIGC</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-1">
+        <a href="#about" class="px-3 py-1.5 text-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-md transition-colors">关于我们</a>
+        <a href="#capabilities" class="px-3 py-1.5 text-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-md transition-colors">核心能力</a>
+        <a href="#cases" class="px-3 py-1.5 text-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-md transition-colors">案例展示</a>
+        <a href="#contact" class="px-3 py-1.5 text-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-md transition-colors">联系我们</a>
+      </nav>
+      <a href="#contact" class="hidden md:inline-flex bg-primary text-on-primary px-5 py-2 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity">合作咨询</a>
+    </div>
+  </header>
+  <!-- @nav:end 导航组件 -->
+
+  <main class="max-w-7xl mx-auto">
+    <!-- @main-content:start -->
+
+    <!-- ===== HERO SECTION: IP 为主 KV ===== -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+      <!-- 宇宙背景光晕 -->
+      <div class="absolute inset-0 bg-gradient-cosmic"></div>
+      <div class="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-gradient-warm rounded-full blur-[120px]"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-gradient-purple rounded-full blur-[100px]"></div>
+
+      <!-- 轨道环 -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] orbital-ring animate-orbit" style="animation-duration: 30s;"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] orbital-ring animate-orbit2" style="border-color: rgba(109,92,255,0.06);"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[580px] h-[580px] orbital-ring animate-orbit3" style="border-color: rgba(255,154,0,0.05);"></div>
+
+      <!-- 轨道粒子 -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] animate-orbit" style="animation-duration: 30s;">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-primary rounded-full shadow-[0_0_12px_rgba(255,77,31,0.6)]"></div>
+      </div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] animate-orbit2">
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-1.5 h-1.5 bg-[#6D5CFF] rounded-full shadow-[0_0_8px_rgba(109,92,255,0.5)]"></div>
+      </div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[580px] h-[580px] animate-orbit3">
+        <div class="absolute top-1/4 right-0 translate-x-1/2 w-1.5 h-1.5 bg-[#FF9A00] rounded-full shadow-[0_0_8px_rgba(255,154,0,0.5)]"></div>
+      </div>
+
+      <!-- IP 分层背景 -->
+      <div class="absolute top-[15%] right-[10%] w-[300px] h-[300px] ip-layer-far animate-drift">
+        <img src="/mascot.png" alt="火牛IP吉祥物远景" class="w-full h-full object-contain" data-category="其他" />
+      </div>
+      <div class="absolute bottom-[20%] left-[8%] w-[250px] h-[250px] ip-layer-mid animate-float-slow">
+        <img src="/mascot.png" alt="火牛IP吉祥物中景" class="w-full h-full object-contain" data-category="其他" />
+      </div>
+
+      <!-- 主视觉: IP 居中展示 -->
+      <div class="relative z-10 flex flex-col items-center text-center px-6">
+        <!-- IP 主 KV -->
+        <div class="relative mb-8 animate-pulse-glow rounded-full">
+          <div class="absolute inset-0 bg-gradient-fire rounded-full blur-[60px] opacity-30"></div>
+          <img src="/mascot.png" alt="火牛AIGC IP吉祥物" class="relative w-48 h-48 md:w-56 md:h-56 object-contain animate-float drop-shadow-[0_0_40px_rgba(255,77,31,0.3)]" data-category="其他" />
+        </div>
+
+        <!-- Logo + Slogan -->
+        <div class="flex items-center gap-4 mb-6">
+          <img src="/logo.png" alt="火牛AIGC品牌标识" class="h-10 md:h-12 w-auto" data-category="商业科技" />
+          <div class="w-px h-8 bg-outline/40"></div>
+          <span class="text-on-surface-variant text-sm tracking-[0.2em] uppercase">AIGC INNOVATION</span>
+        </div>
+
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-4 leading-tight">
+          <span class="text-on-surface">以火焰</span><br/>
+          <span class="text-gradient-fire">点燃智能</span>
+        </h1>
+        <p class="text-on-surface-variant text-base md:text-lg max-w-xl mb-10 leading-relaxed">
+          专注 AIGC 技术研发与商业落地，为品牌提供从内容生成到增长运营的全链路智能解决方案
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="#cases" class="bg-gradient-fire text-white px-8 py-3.5 rounded-xl font-semibold text-sm hover:opacity-90 transition-all hover:scale-105 shadow-[0_0_30px_rgba(255,77,31,0.25)]">
+            探索案例 <i data-lucide="arrow-right" class="inline w-4 h-4 ml-1.5 -mt-0.5"></i>
+          </a>
+          <a href="#contact" class="glass-card px-8 py-3.5 rounded-xl font-semibold text-sm text-on-surface hover:border-primary/30 transition-all">
+            合作咨询
+          </a>
+        </div>
+
+        <!-- 滚动提示 -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-on-surface-variant/40">
+          <span class="text-xs tracking-widest uppercase">Scroll</span>
+          <i data-lucide="chevron-down" class="w-4 h-4 animate-bounce"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT SECTION ===== -->
+    <section id="about" class="relative py-24 px-6 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-warm opacity-60"></div>
+      <div class="absolute top-10 right-[5%] w-[180px] h-[180px] ip-layer-mid animate-float-slow">
+        <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" />
+      </div>
+      <div class="relative z-10 max-w-6xl mx-auto">
+        <div class="flex items-center gap-3 mb-4 scroll-reveal">
+          <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <img src="/mascot.png" alt="IP徽章" class="w-6 h-6 object-contain" data-category="其他" />
+          </div>
+          <span class="text-primary text-sm font-semibold tracking-[0.15em] uppercase">About Us</span>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="scroll-reveal">
+            <h2 class="text-3xl md:text-5xl font-black mb-6 leading-tight">以 AIGC 技术<br/><span class="text-gradient-fire">重塑品牌增长</span></h2>
+            <p class="text-on-surface-variant leading-relaxed mb-6">广州火牛AIGC科技有限公司，成立于2024年，是一家专注于AIGC技术研发与商业落地的创新企业。我们致力于将前沿AI技术与品牌营销深度融合，为企业提供从内容生成、智能运营到增长转化的全链路解决方案。</p>
+            <p class="text-on-surface-variant leading-relaxed mb-8">团队核心成员来自腾讯、字节跳动、阿里巴巴等头部互联网企业，拥有丰富的AI研发与品牌营销经验。我们相信，AI不是替代创意，而是放大创意。</p>
+            <div class="grid grid-cols-3 gap-6">
+              <div class="glass-card rounded-xl p-5 text-center relative overflow-hidden">
+                <div class="absolute -bottom-3 -right-3 w-16 h-16 opacity-[0.04]"><img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" /></div>
+                <div class="text-3xl font-black text-gradient-fire mb-1">50+</div>
+                <div class="text-xs text-on-surface-variant">服务品牌客户</div>
+              </div>
+              <div class="glass-card rounded-xl p-5 text-center relative overflow-hidden">
+                <div class="absolute -bottom-3 -right-3 w-16 h-16 opacity-[0.04]"><img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" /></div>
+                <div class="text-3xl font-black text-gradient-fire mb-1">200+</div>
+                <div class="text-xs text-on-surface-variant">完成项目案例</div>
+              </div>
+              <div class="glass-card rounded-xl p-5 text-center relative overflow-hidden">
+                <div class="absolute -bottom-3 -right-3 w-16 h-16 opacity-[0.04]"><img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" /></div>
+                <div class="text-3xl font-black text-gradient-fire mb-1">98%</div>
+                <div class="text-xs text-on-surface-variant">客户满意度</div>
+              </div>
+            </div>
+          </div>
+          <div class="relative scroll-reveal" style="animation-delay: 0.2s;">
+            <div class="glass-card rounded-2xl p-8 space-y-5">
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5"><i data-lucide="sparkles" class="w-5 h-5 text-primary"></i></div>
+                <div><h4 class="font-semibold mb-1">AIGC 内容工厂</h4><p class="text-sm text-on-surface-variant">自研多模态AI内容生成引擎，覆盖图文、视频、直播全场景</p></div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5"><i data-lucide="trending-up" class="w-5 h-5 text-primary"></i></div>
+                <div><h4 class="font-semibold mb-1">数据驱动增长</h4><p class="text-sm text-on-surface-variant">基于AI数据分析的精准营销策略，实现品牌GMV持续增长</p></div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 mt-0.5"><i data-lucide="palette" class="w-5 h-5 text-primary"></i></div>
+                <div><h4 class="font-semibold mb-1">IP 全链路孵化</h4><p class="text-sm text-on-surface-variant">从IP设计、内容创作到商业化运营的一站式IP孵化服务</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CAPABILITIES SECTION ===== -->
+    <section id="capabilities" class="relative py-24 px-6 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-purple opacity-50"></div>
+      <div class="absolute top-1/3 left-[3%] w-[200px] h-[200px] ip-layer-mid animate-float">
+        <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" />
+      </div>
+      <div class="relative z-10 max-w-6xl mx-auto">
+        <div class="flex items-center gap-3 mb-4 scroll-reveal">
+          <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center animate-breath">
+            <img src="/mascot.png" alt="IP徽章" class="w-6 h-6 object-contain" data-category="其他" />
+          </div>
+          <span class="text-primary text-sm font-semibold tracking-[0.15em] uppercase">Core Capabilities</span>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-black mb-12 scroll-reveal">四大<span class="text-gradient-fire">核心能力</span></h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="glass-card glass-card-hover rounded-2xl p-8 scroll-reveal transition-all duration-500 relative overflow-hidden group">
+            <div class="absolute -bottom-4 -right-4 w-24 h-24 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity"><img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" /></div>
+            <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-5"><i data-lucide="bot" class="w-7 h-7 text-primary"></i></div>
+            <h3 class="text-xl font-bold mb-3">AIGC 内容生成</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed mb-4">自研多模态AI引擎，支持图文、短视频、直播脚本、商品描述等全品类内容智能生成，效率提升10倍+</p>
+            <div class="flex flex-wrap gap-2"><span class="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary">AI文案</span><span class="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary">AI生图</span><span class="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary">AI视频</span></div>
+          </div>
+          <div class="glass-card glass-card-hover rounded-2xl p-8 scroll-reveal transition-all duration-500 relative overflow-hidden group" style="animation-delay: 0.1s;">
+            <div class="absolute -bottom-4 -right-4 w-24 h-24 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity"><img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" /></div>
+            <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-5"><i data-lucide="target" class="w-7 h-7 text-primary"></i></div>
+            <h3 class="text-xl font-bold mb-3">品牌营销策略</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed mb-4">基于AI数据分析的精准品牌定位与营销策略，覆盖小红书、抖音、视频号等全平台营销矩阵</p>
+            <div class="flex flex-wrap gap-2"><span class="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary">品牌定位</span><span class="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary">社媒运营</span><span class="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary">KOL投放</span></div>
+          </div>
+          <div class="glass-card glass-card-hover rounded-2xl p-8 scroll-reveal transition-all duration-500 relative overflow-hidden group" style="animation-delay: 0.2s;">
+            <div class="absolute -bottom-4 -right-4 w-24 h-24 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity"><img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" /></div>
+            <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-5"><i data-lucide="shopping-bag" class="w-7 h-7 text-primary"></i></div>
+            <h3 class="text-xl font-bold mb-3">电商增长运营</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed mb-4">AI驱动的电商全链路运营，从选品分析、内容优化到投放策略，助力品牌实现GMV规模化增长</p>
+            <div class="flex flex-wrap gap-2"><span class="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary">直播运营</span><span class="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary">投流优化</span><span class="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary">数据复盘</span></div>
+          </div>
+          <div class="glass-card glass-card-hover rounded-2xl p-8 scroll-reveal transition-all duration-500 relative overflow-hidden group" style="animation-delay: 0.3s;">
+            <div class="absolute -bottom-4 -right-4 w-24 h-24 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity"><img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" /></div>
+            <div class="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-5"><i data-lucide="map-pin" class="w-7 h-7 text-primary"></i></div>
+            <h3 class="text-xl font-bold mb-3">文旅 IP 开发</h3>
+            <p class="text-on-surface-variant text-sm leading-relaxed mb-4">城市/景区IP全案打造，从IP形象设计、内容矩阵搭建到文创衍生品开发，激活文旅新消费</p>
+            <div class="flex flex-wrap gap-2"><span class="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary">IP设计</span><span class="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary">文创开发</span><span class="px-3 py-1 text-xs rounded-full bg-primary/10 text-primary">城市营销</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CASES SECTION ===== -->
+    <section id="cases" class="relative py-24 px-6 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-amber opacity-50"></div>
+      <div class="absolute top-20 right-[8%] w-[160px] h-[160px] ip-layer-mid animate-drift">
+        <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" />
+      </div>
+      <div class="absolute bottom-20 left-[5%] w-[140px] h-[140px] ip-layer-near animate-float-slow">
+        <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" />
+      </div>
+      <div class="relative z-10 max-w-6xl mx-auto">
+        <div class="flex items-center gap-3 mb-4 scroll-reveal">
+          <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <img src="/mascot.png" alt="IP徽章" class="w-6 h-6 object-contain" data-category="其他" />
+          </div>
+          <span class="text-primary text-sm font-semibold tracking-[0.15em] uppercase">Case Studies</span>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-black mb-4 scroll-reveal">精选<span class="text-gradient-fire">案例展示</span></h2>
+        <p class="text-on-surface-variant mb-10 scroll-reveal max-w-2xl">每一个案例都是AIGC技术与品牌增长的深度融合，用数据说话，用结果证明</p>
+
+        <!-- 分类筛选 -->
+        <div class="flex flex-wrap gap-3 mb-10 scroll-reveal">
+          <button class="px-5 py-2 rounded-full bg-primary text-white text-sm font-semibold transition-all">全部案例</button>
+          <button class="px-5 py-2 rounded-full glass-card text-on-surface-variant text-sm font-medium hover:text-on-surface hover:border-primary/30 transition-all">品牌营销</button>
+          <button class="px-5 py-2 rounded-full glass-card text-on-surface-variant text-sm font-medium hover:text-on-surface hover:border-primary/30 transition-all">平台合作</button>
+          <button class="px-5 py-2 rounded-full glass-card text-on-surface-variant text-sm font-medium hover:text-on-surface hover:border-primary/30 transition-all">文旅推广</button>
+          <button class="px-5 py-2 rounded-full glass-card text-on-surface-variant text-sm font-medium hover:text-on-surface hover:border-primary/30 transition-all">AI创意</button>
+        </div>
+
+        <!-- 案例网格 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- 案例1: 名创优品 -->
+          <div class="glass-card glass-card-hover rounded-2xl overflow-hidden scroll-reveal transition-all duration-500 group cursor-pointer">
+            <div class="case-banner bg-gradient-to-br from-[#E60044] to-[#FF6B8A]" style="--banner-bg: #E60044;">
+              <span class="absolute top-4 left-4 text-6xl font-black text-white/20">M</span>
+              <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="absolute bottom-2 right-3 w-10 h-10 object-contain opacity-10" data-category="其他" />
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2"><span class="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">品牌营销</span></div>
+              <h3 class="font-bold text-lg mb-1">名创优品</h3>
+              <p class="text-xs text-on-surface-variant mb-3">MINISO · AIGC全域内容营销</p>
+              <div class="space-y-1.5 text-xs text-on-surface-variant">
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>AI内容月产 2000+ 条</div>
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>品牌曝光提升 320%</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 案例2: 偌闪女包 -->
+          <div class="glass-card glass-card-hover rounded-2xl overflow-hidden scroll-reveal transition-all duration-500 group cursor-pointer" style="animation-delay: 0.1s;">
+            <div class="case-banner bg-gradient-to-br from-[#8B5CF6] to-[#C4B5FD]" style="--banner-bg: #8B5CF6;">
+              <span class="absolute top-4 left-4 text-6xl font-black text-white/20">R</span>
+              <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="absolute bottom-2 right-3 w-10 h-10 object-contain opacity-10" data-category="其他" />
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2"><span class="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">品牌营销</span></div>
+              <h3 class="font-bold text-lg mb-1">偌闪女包</h3>
+              <p class="text-xs text-on-surface-variant mb-3">RUOSHAN · 抖音电商全案运营</p>
+              <div class="space-y-1.5 text-xs text-on-surface-variant">
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>单月GMV突破 500万</div>
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>ROI稳定在 1:4.5</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 案例3: 深蓝内裤 -->
+          <div class="glass-card glass-card-hover rounded-2xl overflow-hidden scroll-reveal transition-all duration-500 group cursor-pointer" style="animation-delay: 0.2s;">
+            <div class="case-banner bg-gradient-to-br from-[#0EA5E9] to-[#67E8F9]" style="--banner-bg: #0EA5E9;">
+              <span class="absolute top-4 left-4 text-6xl font-black text-white/20">S</span>
+              <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="absolute bottom-2 right-3 w-10 h-10 object-contain opacity-10" data-category="其他" />
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2"><span class="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">品牌营销</span></div>
+              <h3 class="font-bold text-lg mb-1">深蓝内裤</h3>
+              <p class="text-xs text-on-surface-variant mb-3">DEEPBLUE · 品牌0-1全案打造</p>
+              <div class="space-y-1.5 text-xs text-on-surface-variant">
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>3个月品牌搜索量增长 15倍</div>
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>复购率达 35%</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 案例4: 至上元气 -->
+          <div class="glass-card glass-card-hover rounded-2xl overflow-hidden scroll-reveal transition-all duration-500 group cursor-pointer" style="animation-delay: 0.3s;">
+            <div class="case-banner bg-gradient-to-br from-[#F59E0B] to-[#FDE68A]" style="--banner-bg: #F59E0B;">
+              <span class="absolute top-4 left-4 text-6xl font-black text-white/20">Z</span>
+              <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="absolute bottom-2 right-3 w-10 h-10 object-contain opacity-10" data-category="其他" />
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2"><span class="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">品牌营销</span></div>
+              <h3 class="font-bold text-lg mb-1">至上元气</h3>
+              <p class="text-xs text-on-surface-variant mb-3">ZHISHANG · 健康饮品新品牌打造</p>
+              <div class="space-y-1.5 text-xs text-on-surface-variant">
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>首月销量突破 10万单</div>
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>达人合作 500+ 位</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 案例5: 喜来鹿 -->
+          <div class="glass-card glass-card-hover rounded-2xl overflow-hidden scroll-reveal transition-all duration-500 group cursor-pointer" style="animation-delay: 0.4s;">
+            <div class="case-banner bg-gradient-to-br from-[#10B981] to-[#6EE7B7]" style="--banner-bg: #10B981;">
+              <span class="absolute top-4 left-4 text-6xl font-black text-white/20">X</span>
+              <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="absolute bottom-2 right-3 w-10 h-10 object-contain opacity-10" data-category="其他" />
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2"><span class="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">文旅推广</span></div>
+              <h3 class="font-bold text-lg mb-1">喜来鹿</h3>
+              <p class="text-xs text-on-surface-variant mb-3">XILAILU · 亲子乐园IP全案</p>
+              <div class="space-y-1.5 text-xs text-on-surface-variant">
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>IP曝光量超 2亿次</div>
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>客流同比增长 180%</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 案例6: 小红书点点 -->
+          <div class="glass-card glass-card-hover rounded-2xl overflow-hidden scroll-reveal transition-all duration-500 group cursor-pointer" style="animation-delay: 0.5s;">
+            <div class="case-banner bg-gradient-to-br from-[#FF2442] to-[#FF6B81]" style="--banner-bg: #FF2442;">
+              <span class="absolute top-4 left-4 text-6xl font-black text-white/20">D</span>
+              <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="absolute bottom-2 right-3 w-10 h-10 object-contain opacity-10" data-category="其他" />
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2"><span class="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">平台合作</span></div>
+              <h3 class="font-bold text-lg mb-1">小红书点点</h3>
+              <p class="text-xs text-on-surface-variant mb-3">RED · AI内容生态共建</p>
+              <div class="space-y-1.5 text-xs text-on-surface-variant">
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>AIGC笔记 10000+ 篇</div>
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>互动率高于平台均值 3倍</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 案例7: 豆包 -->
+          <div class="glass-card glass-card-hover rounded-2xl overflow-hidden scroll-reveal transition-all duration-500 group cursor-pointer" style="animation-delay: 0.6s;">
+            <div class="case-banner bg-gradient-to-br from-[#6366F1] to-[#A5B4FC]" style="--banner-bg: #6366F1;">
+              <span class="absolute top-4 left-4 text-6xl font-black text-white/20">D</span>
+              <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="absolute bottom-2 right-3 w-10 h-10 object-contain opacity-10" data-category="其他" />
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2"><span class="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">平台合作</span></div>
+              <h3 class="font-bold text-lg mb-1">豆包</h3>
+              <p class="text-xs text-on-surface-variant mb-3">Doubao · AI智能体内容营销</p>
+              <div class="space-y-1.5 text-xs text-on-surface-variant">
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>智能体互动 500万+ 次</div>
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>用户留存率提升 65%</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 案例8: 茂名电白文旅 -->
+          <div class="glass-card glass-card-hover rounded-2xl overflow-hidden scroll-reveal transition-all duration-500 group cursor-pointer" style="animation-delay: 0.7s;">
+            <div class="case-banner bg-gradient-to-br from-[#14B8A6] to-[#5EEAD4]" style="--banner-bg: #14B8A6;">
+              <span class="absolute top-4 left-4 text-6xl font-black text-white/20">M</span>
+              <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="absolute bottom-2 right-3 w-10 h-10 object-contain opacity-10" data-category="其他" />
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2"><span class="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">文旅推广</span></div>
+              <h3 class="font-bold text-lg mb-1">茂名电白文旅</h3>
+              <p class="text-xs text-on-surface-variant mb-3">DIANBAI · 城市文旅IP全案</p>
+              <div class="space-y-1.5 text-xs text-on-surface-variant">
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>城市IP全网曝光 5亿+</div>
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>旅游收入增长 220%</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 案例9: AI漫剧 -->
+          <div class="glass-card glass-card-hover rounded-2xl overflow-hidden scroll-reveal transition-all duration-500 group cursor-pointer" style="animation-delay: 0.8s;">
+            <div class="case-banner bg-gradient-to-br from-[#EC4899] to-[#F9A8D4]" style="--banner-bg: #EC4899;">
+              <span class="absolute top-4 left-4 text-6xl font-black text-white/20">A</span>
+              <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="absolute bottom-2 right-3 w-10 h-10 object-contain opacity-10" data-category="其他" />
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2"><span class="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">AI创意</span></div>
+              <h3 class="font-bold text-lg mb-1">AI漫剧</h3>
+              <p class="text-xs text-on-surface-variant mb-3">AI Comic · AIGC漫画内容生产</p>
+              <div class="space-y-1.5 text-xs text-on-surface-variant">
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>AI生成漫画 3000+ 话</div>
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>全网阅读量 8000万+</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 案例10: MCN博主 -->
+          <div class="glass-card glass-card-hover rounded-2xl overflow-hidden scroll-reveal transition-all duration-500 group cursor-pointer" style="animation-delay: 0.9s;">
+            <div class="case-banner bg-gradient-to-br from-[#F97316] to-[#FDBA74]" style="--banner-bg: #F97316;">
+              <span class="absolute top-4 left-4 text-6xl font-black text-white/20">M</span>
+              <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="absolute bottom-2 right-3 w-10 h-10 object-contain opacity-10" data-category="其他" />
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2"><span class="text-xs px-2 py-0.5 rounded bg-primary/10 text-primary font-medium">AI创意</span></div>
+              <h3 class="font-bold text-lg mb-1">MCN博主</h3>
+              <p class="text-xs text-on-surface-variant mb-3">MCN · AI达人内容赋能</p>
+              <div class="space-y-1.5 text-xs text-on-surface-variant">
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>服务达人 200+ 位</div>
+                <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span>内容产出效率提升 8倍</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DATA / IMPACT SECTION ===== -->
+    <section class="relative py-24 px-6 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-warm opacity-60"></div>
+      <div class="absolute top-10 right-[10%] w-[160px] h-[160px] ip-layer-mid animate-float">
+        <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" />
+      </div>
+      <div class="relative z-10 max-w-6xl mx-auto text-center">
+        <div class="flex items-center justify-center gap-3 mb-4 scroll-reveal">
+          <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <img src="/mascot.png" alt="IP徽章" class="w-6 h-6 object-contain" data-category="其他" />
+          </div>
+          <span class="text-primary text-sm font-semibold tracking-[0.15em] uppercase">Our Impact</span>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-black mb-16 scroll-reveal">数据<span class="text-gradient-fire">见证实力</span></h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div class="scroll-reveal relative">
+            <div class="absolute -top-2 -right-2 w-12 h-12 opacity-[0.04]"><img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" /></div>
+            <div class="text-5xl md:text-6xl font-black text-gradient-fire mb-2">50+</div>
+            <div class="text-on-surface-variant text-sm">服务品牌客户</div>
+          </div>
+          <div class="scroll-reveal relative" style="animation-delay: 0.1s;">
+            <div class="absolute -top-2 -right-2 w-12 h-12 opacity-[0.04]"><img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" /></div>
+            <div class="text-5xl md:text-6xl font-black text-gradient-fire mb-2">200+</div>
+            <div class="text-on-surface-variant text-sm">完成项目案例</div>
+          </div>
+          <div class="scroll-reveal relative" style="animation-delay: 0.2s;">
+            <div class="absolute -top-2 -right-2 w-12 h-12 opacity-[0.04]"><img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" /></div>
+            <div class="text-5xl md:text-6xl font-black text-gradient-fire mb-2">10亿+</div>
+            <div class="text-on-surface-variant text-sm">累计内容曝光</div>
+          </div>
+          <div class="scroll-reveal relative" style="animation-delay: 0.3s;">
+            <div class="absolute -top-2 -right-2 w-12 h-12 opacity-[0.04]"><img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" /></div>
+            <div class="text-5xl md:text-6xl font-black text-gradient-fire mb-2">98%</div>
+            <div class="text-on-surface-variant text-sm">客户满意度</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SERVICE FLOW SECTION ===== -->
+    <section class="relative py-24 px-6 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-purple opacity-50"></div>
+      <div class="absolute top-1/2 left-[3%] w-[180px] h-[180px] ip-layer-mid animate-float-slow">
+        <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" />
+      </div>
+      <div class="relative z-10 max-w-6xl mx-auto">
+        <div class="flex items-center gap-3 mb-4 scroll-reveal">
+          <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center animate-breath">
+            <img src="/mascot.png" alt="IP徽章" class="w-6 h-6 object-contain" data-category="其他" />
+          </div>
+          <span class="text-primary text-sm font-semibold tracking-[0.15em] uppercase">Service Flow</span>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-black mb-16 scroll-reveal">全链路<span class="text-gradient-fire">服务体系</span></h2>
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div class="glass-card rounded-2xl p-6 text-center scroll-reveal relative">
+            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4"><span class="text-primary font-black text-lg">1</span></div>
+            <h4 class="font-bold mb-2">需求诊断</h4>
+            <p class="text-xs text-on-surface-variant">AI数据洞察<br/>精准定位需求</p>
+          </div>
+          <div class="glass-card rounded-2xl p-6 text-center scroll-reveal relative" style="animation-delay: 0.1s;">
+            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4"><span class="text-primary font-black text-lg">2</span></div>
+            <h4 class="font-bold mb-2">策略规划</h4>
+            <p class="text-xs text-on-surface-variant">定制化方案<br/>全平台矩阵</p>
+          </div>
+          <div class="glass-card rounded-2xl p-6 text-center scroll-reveal relative" style="animation-delay: 0.2s;">
+            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4"><span class="text-primary font-black text-lg">3</span></div>
+            <h4 class="font-bold mb-2">内容生产</h4>
+            <p class="text-xs text-on-surface-variant">AIGC批量创作<br/>多模态输出</p>
+          </div>
+          <div class="glass-card rounded-2xl p-6 text-center scroll-reveal relative" style="animation-delay: 0.3s;">
+            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4"><span class="text-primary font-black text-lg">4</span></div>
+            <h4 class="font-bold mb-2">投放运营</h4>
+            <p class="text-xs text-on-surface-variant">智能投流优化<br/>实时数据复盘</p>
+          </div>
+          <div class="glass-card rounded-2xl p-6 text-center scroll-reveal relative" style="animation-delay: 0.4s;">
+            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4"><span class="text-primary font-black text-lg">5</span></div>
+            <h4 class="font-bold mb-2">增长复盘</h4>
+            <p class="text-xs text-on-surface-variant">数据驱动迭代<br/>持续增长飞轮</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOUNDER SECTION ===== -->
+    <section class="relative py-24 px-6 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-warm opacity-50"></div>
+      <div class="relative z-10 max-w-6xl mx-auto">
+        <div class="flex items-center gap-3 mb-4 scroll-reveal">
+          <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <img src="/mascot.png" alt="IP徽章" class="w-6 h-6 object-contain" data-category="其他" />
+          </div>
+          <span class="text-primary text-sm font-semibold tracking-[0.15em] uppercase">Founder</span>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-black mb-12 scroll-reveal">创始人<span class="text-gradient-fire">战绩</span></h2>
+        <div class="glass-card rounded-2xl p-8 md:p-10 scroll-reveal relative overflow-hidden">
+          <div class="absolute -bottom-6 -right-6 w-32 h-32 opacity-[0.03]"><img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" /></div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="text-center"><div class="text-4xl font-black text-gradient-fire mb-2">10年+</div><div class="text-sm text-on-surface-variant">互联网营销经验</div></div>
+            <div class="text-center"><div class="text-4xl font-black text-gradient-fire mb-2">5亿+</div><div class="text-sm text-on-surface-variant">累计操盘GMV</div></div>
+            <div class="text-center"><div class="text-4xl font-black text-gradient-fire mb-2">100+</div><div class="text-sm text-on-surface-variant">品牌服务案例</div></div>
+          </div>
+          <div class="mt-8 pt-8 border-t border-outline-variant/20">
+            <p class="text-on-surface-variant text-sm leading-relaxed text-center max-w-2xl mx-auto">核心团队来自腾讯、字节跳动、阿里巴巴等头部互联网企业，拥有丰富的AI研发与品牌营销实战经验。以技术驱动创意，用数据验证增长。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BRAND IDENTITY SECTION ===== -->
+    <section class="relative py-24 px-6 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-amber opacity-50"></div>
+      <div class="relative z-10 max-w-6xl mx-auto">
+        <div class="flex items-center gap-3 mb-4 scroll-reveal">
+          <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+            <img src="/mascot.png" alt="IP徽章" class="w-6 h-6 object-contain" data-category="其他" />
+          </div>
+          <span class="text-primary text-sm font-semibold tracking-[0.15em] uppercase">Brand Identity</span>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-black mb-12 scroll-reveal">品牌<span class="text-gradient-fire">基因</span></h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="glass-card rounded-2xl p-10 text-center scroll-reveal relative overflow-hidden group">
+            <div class="absolute inset-0 bg-gradient-warm opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            <div class="relative z-10">
+              <img src="/logo.png" alt="火牛AIGC品牌标识" class="h-16 w-auto mx-auto mb-6" data-category="商业科技" />
+              <h3 class="font-bold text-xl mb-3">火牛 Logo</h3>
+              <p class="text-sm text-on-surface-variant">火焰与牛角的融合，象征激情与力量。像素化设计语言，代表数字时代的创新精神。</p>
+            </div>
+          </div>
+          <div class="glass-card rounded-2xl p-10 text-center scroll-reveal relative overflow-hidden group" style="animation-delay: 0.2s;">
+            <div class="absolute inset-0 bg-gradient-warm opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            <div class="relative z-10">
+              <img src="/mascot.png" alt="火牛IP吉祥物" class="h-24 w-auto mx-auto mb-6 animate-float drop-shadow-[0_0_30px_rgba(255,77,31,0.2)]" data-category="其他" />
+              <h3 class="font-bold text-xl mb-3">IP 吉祥物</h3>
+              <p class="text-sm text-on-surface-variant">太空宇航员与火牛元素的结合，代表探索未知、用AI技术开拓品牌新边界的使命。</p>
+            </div>
+          </div>
+        </div>
+        <!-- 品牌色系 -->
+        <div class="mt-10 glass-card rounded-2xl p-8 scroll-reveal">
+          <h4 class="font-bold mb-6 text-center">品牌色系</h4>
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+            <div class="text-center"><div class="w-full h-16 rounded-xl bg-[#FF4D1F] mb-2 shadow-[0_0_20px_rgba(255,77,31,0.3)]"></div><span class="text-xs text-on-surface-variant">炽焰橙 #FF4D1F</span></div>
+            <div class="text-center"><div class="w-full h-16 rounded-xl bg-[#FF9A00] mb-2 shadow-[0_0_20px_rgba(255,154,0,0.3)]"></div><span class="text-xs text-on-surface-variant">明橙 #FF9A00</span></div>
+            <div class="text-center"><div class="w-full h-16 rounded-xl bg-[#0A0A14] mb-2 ring-1 ring-outline/30"></div><span class="text-xs text-on-surface-variant">暖黑 #0A0A14</span></div>
+            <div class="text-center"><div class="w-full h-16 rounded-xl bg-[#6D5CFF] mb-2 shadow-[0_0_20px_rgba(109,92,255,0.3)]"></div><span class="text-xs text-on-surface-variant">电光紫 #6D5CFF</span></div>
+            <div class="text-center"><div class="w-full h-16 rounded-xl bg-[#F2F4F7] mb-2 ring-1 ring-outline/30"></div><span class="text-xs text-on-surface-variant">冷灰 #F2F4F7</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT / CTA SECTION ===== -->
+    <section id="contact" class="relative py-24 px-6 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-cosmic"></div>
+      <div class="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-gradient-warm rounded-full blur-[150px] opacity-40"></div>
+      <div class="absolute top-10 right-[10%] w-[160px] h-[160px] ip-layer-near animate-float">
+        <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" />
+      </div>
+      <div class="absolute bottom-10 left-[8%] w-[140px] h-[140px] ip-layer-mid animate-float-slow">
+        <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" />
+      </div>
+      <div class="relative z-10 max-w-3xl mx-auto text-center">
+        <div class="flex items-center justify-center gap-3 mb-4 scroll-reveal">
+          <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center animate-breath">
+            <img src="/mascot.png" alt="IP徽章" class="w-6 h-6 object-contain" data-category="其他" />
+          </div>
+          <span class="text-primary text-sm font-semibold tracking-[0.15em] uppercase">Contact Us</span>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-black mb-6 scroll-reveal">准备好<span class="text-gradient-fire">点燃增长</span>了吗？</h2>
+        <p class="text-on-surface-variant text-lg mb-10 scroll-reveal max-w-xl mx-auto">无论您是品牌方、平台方还是创业者，我们都能为您提供定制化的AIGC解决方案</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center scroll-reveal">
+          <a href="#" class="bg-gradient-fire text-white px-10 py-4 rounded-xl font-bold text-base hover:opacity-90 transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,77,31,0.3)] inline-flex items-center justify-center gap-2">
+            <i data-lucide="mail" class="w-5 h-5"></i> 立即咨询
+          </a>
+          <a href="#" class="glass-card px-10 py-4 rounded-xl font-bold text-base text-on-surface hover:border-primary/30 transition-all inline-flex items-center justify-center gap-2">
+            <i data-lucide="phone" class="w-5 h-5"></i> 400-XXX-XXXX
+          </a>
+        </div>
+        <div class="mt-12 glass-card rounded-2xl p-8 scroll-reveal inline-block">
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="flex items-center gap-3"><i data-lucide="map-pin" class="w-5 h-5 text-primary"></i><span class="text-sm">广州 · 天河区</span></div>
+            <div class="flex items-center gap-3"><i data-lucide="mail" class="w-5 h-5 text-primary"></i><span class="text-sm">contact@firebull.cn</span></div>
+            <div class="flex items-center gap-3"><i data-lucide="globe" class="w-5 h-5 text-primary"></i><span class="text-sm">www.firebull.cn</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- @main-content:end -->
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="border-t border-outline-variant/20 bg-surface-container-lowest">
+    <div class="max-w-7xl mx-auto px-6 py-12">
+      <div class="h-1 w-full bg-gradient-fire rounded-full mb-8 animate-shimmer"></div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <img src="/logo.png" alt="火牛AIGC品牌标识" class="h-8 w-auto" data-category="商业科技" />
+            <img src="/mascot.png" alt="火牛IP" class="h-8 w-auto" data-category="其他" />
+          </div>
+          <p class="text-on-surface-variant text-sm leading-relaxed max-w-md">广州火牛AIGC — 专注AIGC技术研发与商业落地，为品牌提供从内容生成到增长运营的全链路智能解决方案。</p>
+        </div>
+        <div>
+          <h4 class="font-semibold text-sm mb-4">服务项目</h4>
+          <div class="space-y-2 text-sm text-on-surface-variant">
+            <p>AIGC内容创作</p><p>品牌营销策划</p><p>电商增长运营</p><p>文旅IP开发</p>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-semibold text-sm mb-4">联系方式</h4>
+          <div class="space-y-2 text-sm text-on-surface-variant">
+            <p>广州 · 天河区</p><p>contact@firebull.cn</p><p>400-XXX-XXXX</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-10 pt-6 border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-on-surface-variant/60">
+        <p>&copy; 2026 广州火牛AIGC科技有限公司. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-on-surface transition-colors">隐私政策</a>
+          <a href="#" class="hover:text-on-surface transition-colors">服务条款</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>lucide.createIcons();</script>
+  <script>
+    $(function() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+      $('.scroll-reveal').each(function() { observer.observe(this); });
+      $(window).on('scroll', function() {
+        var $header = $('header');
+        if ($header.length) {
+          $header.toggleClass('bg-background/90', $(window).scrollTop() > 50);
+          $header.toggleClass('bg-background/70', $(window).scrollTop() <= 50);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+    <style>
+      @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    </style>
+
+    <!-- ===== BRAND MARQUEE ===== -->
+    <section class="py-12 border-y border-outline-variant/20 overflow-hidden relative">
+      <div class="absolute inset-0 bg-gradient-warm opacity-50"></div>
+      <div class="absolute top-0 right-10 w-[120px] h-[120px] ip-layer-far">
+        <img src="/mascot.png" alt="火牛IP吉祥物装饰" class="w-full h-full object-contain" data-category="其他" />
+      </div>
+      <div class="flex gap-16 animate-[scroll_30s_linear_infinite] whitespace-nowrap relative z-10">
+        <span class="text-2xl font-black text-on-surface/10 tracking-[0.3em] uppercase">FireBull AIGC</span>
+        <span class="text-2xl font-black text-on-surface/10 tracking-[0.3em] uppercase">·</span>
+        <span class="text-2xl font-black text-on-surface/10 tracking-[0.3em] uppercase">AIGC Innovation</span>
+        <span class="text-2xl font-black text-on-surface/10 tracking-[0.3em] uppercase">·</span>
+        <span class="text-2xl font-black text-on-surface/10 tracking-[0.3em] uppercase">火牛智能</span>
+        <span class="text-2xl font-black text-on-surface/10 tracking-[0.3em] uppercase">·</span>
+        <span class="text-2xl font-black text-on-surface/10 tracking-[0.3em] uppercase">FireBull AIGC</span>
+        <span class="text-2xl font-black text-on-surface/10 tracking-[0.3em] uppercase">·</span>
+        <span class="text-2xl font-black text-on-surface/10 tracking-[0.3em] uppercase">AIGC Innovation</span>
+        <span class="text-2xl font-black text-on-surface/10 tracking-[0.3em] uppercase">·</span>
+        <span class="text-2xl font-black text-on-surface/10 tracking-[0.3em] uppercase">火牛智能</span>
+        <span class="text-2xl font-black text-on-surface/10 tracking-[0.3em] uppercase">·</span>
+      </div>
+    </section>
