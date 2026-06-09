@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Noto_Sans_SC } from "next/font/google";
-import Image from "next/image";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -16,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="zh-CN" className={`${inter.variable} ${notoSC.variable}`}>
       <body className="font-sans antialiased text-white bg-[#0A0A14] overflow-x-hidden">
         {children}
+        <Analytics />
       </body>
     </html>
   );
